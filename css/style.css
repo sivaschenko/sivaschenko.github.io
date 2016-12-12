@@ -1055,7 +1055,8 @@ footer {
 .social-icons a.fa {
   cursor: pointer;
   opacity: 0.8;
-  padding: 0.2em; }
+  padding: 0.2em;
+  font-size: 1.4rem; }
 
 .social-icons a.fa:hover {
   opacity: 1; }

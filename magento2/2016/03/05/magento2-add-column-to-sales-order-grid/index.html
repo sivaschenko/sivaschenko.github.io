@@ -13,11 +13,11 @@
     <meta name="author" content="Sergii Ivashchenko">
     
     <meta name="keywords" content="magento2">
-    <link rel="canonical" href="http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/">
+    <link rel="canonical" href="http://localhost:4000/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/">
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for sivaschenko" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/style.css?201612122105" type="text/css">
+    <link rel="stylesheet" href="/css/style.css?201612122238" type="text/css">
 
     <!-- Fonts -->
     
@@ -43,7 +43,7 @@
     <meta property="og:type" content="article">
     <meta property="og:title" content="Magento 2. Adding column to Sales Order grid">
     <meta property="og:description" content="Written with ♥ for developers">
-    <meta property="og:url" content="http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/">
+    <meta property="og:url" content="http://localhost:4000/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/">
     <meta property="og:site_name" content="sivaschenko">
 
     <!-- Twitter Card -->
@@ -53,7 +53,7 @@
     
     <meta name="twitter:title" content="Magento 2. Adding column to Sales Order grid" />
     <meta name="twitter:description" content="First of all, ensure you have your column in database table, and it is mapped to any field of sales_order table..." />
-    <meta name="twitter:url" content="http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/" />
+    <meta name="twitter:url" content="http://localhost:4000/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/" />
 
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png">
@@ -91,9 +91,9 @@
     <header class="site-header px2 px-responsive">
   <div class="mt2 wrap">
     <div class="measure">
-      <a href="http://www.sivaschenko.com" class="site-title">sivaschenko</a>
+      <a href="http://localhost:4000" class="site-title">sivaschenko</a>
       <nav class="site-nav">
-        <a href="http://www.sivaschenko.com">Posts</a>
+        <a href="http://localhost:4000">Posts</a>
 
     
     
@@ -183,7 +183,7 @@
   <p>Sales order grid in Magento 2 can be accessed in admin panel under “Sales” -&gt; “Orders” menu.
 By default only several main columns are visible in grid, but there are additional columns, that can be enabled from “Columns” dropdown on the top-right side.</p>
 
-<p><img src="http://www.sivaschenko.com/images/magento2-sales-order-grid-columns.png" alt="Magento 2 Sales Order Grid Columns" /></p>
+<p><img src="http://localhost:4000/images/magento2-sales-order-grid-columns.png" alt="Magento 2 Sales Order Grid Columns" /></p>
 
 <p>However, if you are creating a module that provides additional useful information about orders, it is a good idea to add corresponding columns to sales order grid.</p>
 
@@ -218,7 +218,7 @@ By default only several main columns are visible in grid, but there are addition
 </code></pre>
 </div>
 
-<p>Just add it to “app/code/&lt;your_namespace&gt;/&lt;your_module&gt;/Setup/InstallSchema.php” file and it will create a column named <strong>affiliate_information</strong>, of type text, with comment “Affiliate Information” to <strong>sales_order_grid</strong> during installation.</p>
+<p>Just add it to <code class="highlighter-rouge">app/code/&lt;your_namespace&gt;/&lt;your_module&gt;/Setup/InstallSchema.php</code> file and it will create a column named <strong>affiliate_information</strong>, of type text, with comment “Affiliate Information” to <strong>sales_order_grid</strong> during installation.</p>
 
 <p>Don’t worry about implications of core table modification. <strong>sales_order_grid</strong> is index table and is used for order grid rendering speed up. It is designed to store all information required for sales order grid rendering, so custom columns are required to be added to this table.</p>
 
@@ -232,7 +232,7 @@ By default only several main columns are visible in grid, but there are addition
 
 <p>When order is placed (according to default configuration), data related to this order is selected from <strong>sales_order</strong> table joining several additional tables and inserted to <strong>sales_order_grid</strong>. This operation is initiated by <code class="highlighter-rouge">\Magento\Sales\Model\ResourceModel\Grid::refresh</code> function and the default select is declared in “&lt;Magento Sales module&gt;/etc/di.xml” file.</p>
 
-<p>So to include our table in mentioned insert from select, we have to extend di configuration creating “app/code/&lt;Namespace&gt;/&lt;Module&gt;/etc/adminhtml/di.xml” file.</p>
+<p>So to include our table in mentioned insert from select, we have to extend di configuration creating <code class="highlighter-rouge">app/code/&lt;Namespace&gt;/&lt;Module&gt;/etc/adminhtml/di.xml</code> file.</p>
 
 <p>The following xml snippet should be added to di configuration inside config node.</p>
 
@@ -265,7 +265,7 @@ By default only several main columns are visible in grid, but there are addition
 
 <p>Finally, to reflect the column on admin panel grid, we have to extend <strong>sales_order_grid</strong> ui component by adding a ui configuration file in our module.</p>
 
-<p>It is possible to extend ui configuration fo sales order grid introducing <code class="highlighter-rouge">app/code/\&lt;Namespace&gt;/\&lt;Module&gt;/view/adminhtml/ui_component/sales_order_grid.xml</code> file.
+<p>It is possible to extend ui configuration fo sales order grid introducing <code class="highlighter-rouge">app/code/&lt;Namespace&gt;/&lt;Module&gt;/view/adminhtml/ui_component/sales_order_grid.xml</code> file.
 Basically it should have the same name and path in relation to module directory as main sales order grid ui component file: <code class="highlighter-rouge">app/code/Magento/Sales/view/adminhtml/ui_component/sales_order_grid.xml</code></p>
 
 <p>Put the following xml snippet to the ui configuration file:</p>
@@ -318,13 +318,13 @@ Basically it should have the same name and path in relation to module directory 
     
 
     
-      <a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text=Magento 2. Adding column to Sales Order grid&url=http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/" rel="nofollow" target="_blank" title="Share on Twitter"></a>
+      <a class="fa fa-twitter" href="https://twitter.com/intent/tweet?text=Magento 2. Adding column to Sales Order grid&url=http://localhost:4000/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/" rel="nofollow" target="_blank" title="Share on Twitter"></a>
     
 
     
 
     
-      <a class="fa fa-linkedin" href="http://www.linkedin.com/shareArticle?url=http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/&title=Magento 2. Adding column to Sales Order grid" rel="nofollow" target="_blank" title="Share on LinkedIn"></a>
+      <a class="fa fa-linkedin" href="http://www.linkedin.com/shareArticle?url=http://localhost:4000/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/&title=Magento 2. Adding column to Sales Order grid" rel="nofollow" target="_blank" title="Share on LinkedIn"></a>
     
 
     
@@ -332,11 +332,11 @@ Basically it should have the same name and path in relation to module directory 
     
 
     
-      <a class="fa fa-reddit" href="http://reddit.com/submit?url=http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/&title=Magento 2. Adding column to Sales Order grid" rel="nofollow" target="_blank" title="Share on Reddit"></a>
+      <a class="fa fa-reddit" href="http://reddit.com/submit?url=http://localhost:4000/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/&title=Magento 2. Adding column to Sales Order grid" rel="nofollow" target="_blank" title="Share on Reddit"></a>
     
 
     
-      <a class="fa fa-stumbleupon" href="http://www.stumbleupon.com/submit?url=http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/&title=Magento 2. Adding column to Sales Order grid" rel="nofollow" target="_blank" title="Share on StumbleUpon"></a>
+      <a class="fa fa-stumbleupon" href="http://www.stumbleupon.com/submit?url=http://localhost:4000/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/&title=Magento 2. Adding column to Sales Order grid" rel="nofollow" target="_blank" title="Share on StumbleUpon"></a>
     
 
     
