@@ -3,8 +3,8 @@
   <channel>
     <title>sivaschenko</title>
     <description>Written with ♥ for developers</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://www.sivaschenko.com/</link>
+    <atom:link href="http://www.sivaschenko.com/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
         <title>Apache running multiple PHP versions simultaneously</title>
@@ -221,8 +221,8 @@ RewriteRule . - [L]
 &lt;p&gt;Open your browser and visit php5.local.com and php7.local.com domains (or use wget).&lt;/p&gt;
 </description>
         <pubDate>Tue, 22 Nov 2016 11:21:29 +0000</pubDate>
-        <link>http://localhost:4000/php/2016/11/22/apache-running-multiple-php-versions-simultaneously/</link>
-        <guid isPermaLink="true">http://localhost:4000/php/2016/11/22/apache-running-multiple-php-versions-simultaneously/</guid>
+        <link>http://www.sivaschenko.com/php/2016/11/22/apache-running-multiple-php-versions-simultaneously/</link>
+        <guid isPermaLink="true">http://www.sivaschenko.com/php/2016/11/22/apache-running-multiple-php-versions-simultaneously/</guid>
       </item>
     
       <item>
@@ -230,7 +230,7 @@ RewriteRule . - [L]
         <description>&lt;p&gt;Sales order grid in Magento 2 can be accessed in admin panel under “Sales” -&amp;gt; “Orders” menu.
 By default only several main columns are visible in grid, but there are additional columns, that can be enabled from “Columns” dropdown on the top-right side.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/magento2-sales-order-grid-columns.png&quot; alt=&quot;Magento 2 Sales Order Grid Columns&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://www.sivaschenko.com/images/magento2-sales-order-grid-columns.png&quot; alt=&quot;Magento 2 Sales Order Grid Columns&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;However, if you are creating a module that provides additional useful information about orders, it is a good idea to add corresponding columns to sales order grid.&lt;/p&gt;
 
@@ -356,8 +356,8 @@ Basically it should have the same name and path in relation to module directory 
 &lt;p&gt;Hope this tutorial was useful for you. Please feel free to provide any feedback in comments or contact me directly.&lt;/p&gt;
 </description>
         <pubDate>Sat, 05 Mar 2016 11:21:29 +0000</pubDate>
-        <link>http://localhost:4000/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/</link>
-        <guid isPermaLink="true">http://localhost:4000/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/</guid>
+        <link>http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/</link>
+        <guid isPermaLink="true">http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/</guid>
       </item>
     
   </channel>

@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title></title>
-    <link>http://localhost:4000</link>
+    <link>http://www.sivaschenko.com</link>
     <description>
       Written with ♥ for developers
     </description>
@@ -10,7 +10,7 @@
         
             <item>
                 <title>Apache running multiple PHP versions simultaneously</title>
-                <link>http://localhost:4000/php/2016/11/22/apache-running-multiple-php-versions-simultaneously/</link>
+                <link>http://www.sivaschenko.com/php/2016/11/22/apache-running-multiple-php-versions-simultaneously/</link>
                 <content:encoded>
                     <![CDATA[
                     <h1 id="overview">Overview</h1>
@@ -241,13 +241,13 @@ RewriteRule . - [L]
         
             <item>
                 <title>Magento 2. Adding column to Sales Order grid</title>
-                <link>http://localhost:4000/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/</link>
+                <link>http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/</link>
                 <content:encoded>
                     <![CDATA[
                     <p>Sales order grid in Magento 2 can be accessed in admin panel under “Sales” -&gt; “Orders” menu.
 By default only several main columns are visible in grid, but there are additional columns, that can be enabled from “Columns” dropdown on the top-right side.</p>
 
-<p><img src="http://localhost:4000/images/magento2-sales-order-grid-columns.png" alt="Magento 2 Sales Order Grid Columns" /></p>
+<p><img src="http://www.sivaschenko.com/images/magento2-sales-order-grid-columns.png" alt="Magento 2 Sales Order Grid Columns" /></p>
 
 <p>However, if you are creating a module that provides additional useful information about orders, it is a good idea to add corresponding columns to sales order grid.</p>
 
