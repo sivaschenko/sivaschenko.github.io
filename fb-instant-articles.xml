@@ -17,24 +17,28 @@
 
 <p>There are several ways to achieve the same goal and run multiple websites on different PHP versions simultaneously.</p>
 
-<p>In my opinion, the most convenient way to install several PHP versions side-by-side for development purpose is using <a href="https://github.com/phpbrew/phpbrew">phpbrew</a>.
-As for running multiple php versions on one server, my choice is Apache with fastcgi.</p>
+<p>In my opinion, the most convenient way to install several PHP versions side-by-side for development purpose is using <strong>PHPBrew</strong>.</p>
 
-<p>The approach described here in short includes the following steps:</p>
+<p>As for running multiple php versions on one server, my choice is <strong>Apache</strong> with <strong>FastCGI</strong>.</p>
+
+<p>The approach described here includes the following steps:</p>
 
 <ul>
-  <li>Install several php versions using PHPBrew</li>
-  <li>Install Apache web server with fastcgi module</li>
-  <li>Create separate fastcgi script for each php version</li>
-  <li>Specify fastcgi script for web application execution on virtual host level</li>
+  <li>Install several php versions using <strong>PHPBrew</strong></li>
+  <li>Install <strong>Apache</strong> web server with <strong>FastCGI</strong> module</li>
+  <li>Create separate <strong>FastCGI</strong> script for each php version</li>
+  <li>Map appropriate <strong>FastCGI</strong> script for web application execution on <strong>virtual host level</strong></li>
 </ul>
 
-<p>The instructions are tested on <strong>ubuntu:xenial</strong> docker image (Ubuntu 16.04).
-Tutorial is based on setting up enviroment from scratch, so some of steps can be skipped on particular environments, however there should be no problems to execute all mentioned commands even if some packages are already installed on the system.</p>
+<p>The instructions are tested on <strong>ubuntu:xenial</strong> docker image (Ubuntu 16.04).</p>
+
+<p>Tutorial is based on setting up enviroment from scratch, so some of steps can be skipped on particular environments, however there should be no problems to execute all mentioned commands even if some packages are already installed on the system.</p>
+
+<div class="markdown-warning-note"><i class="fa fa-warning"></i>The installation and configuration demonstrated under <b>root</b> user for simplification. Please perform actions under appropriate user on your system where possible.</div>
 
 <h1 id="installing-all-the-dependencies">Installing all the dependencies</h1>
 
-<p>First lets add two additional repositories to apt that are required to fetch libapache2-mod-fastcgi package:</p>
+<p>Adding <code class="highlighter-rouge">multiverse</code> and <code class="highlighter-rouge">partner</code> repositories to apt. These are required to fetch <code class="highlighter-rouge">libapache2-mod-fastcgi</code> package:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>apt update
 apt install software-properties-common lsb-release
@@ -43,21 +47,21 @@ apt update
 </code></pre>
 </div>
 
-<p>Than we have to install MySQL, Apache, Fastcgi mod with dev packages as they will be required for compiling php modules:</p>
+<p>Than, we have to install MySQL, Apache and FastCGI module together with related dev packages as they will be required for PHP modules compilation:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>apt install apache2 apache2-dev libapache2-mod-fastcgi
 apt install mysql-server mysql-client libmysqlclient-dev libmysqld-dev libpq-dev
 </code></pre>
 </div>
 
-<p>Ensuring all other php dependecies are in place:</p>
+<p>Ensuring all other PHP dependecies are in place:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>apt install php php-dev php-pear autoconf automake curl libcurl3-openssl-dev build-essential libxslt1-dev re2c 
 apt install libxml2 libxml2-dev php-cli bison libbz2-dev libreadline-dev libicu-dev libmcrypt-dev libmcrypt4
 </code></pre>
 </div>
 
-<p>Installing phpbrew:</p>
+<p>Installing PHPBrew:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
@@ -66,36 +70,32 @@ phpbrew init
 </code></pre>
 </div>
 
-<p>Now it is possible to install php 7 and 5 using phpbrew, it will take some time for compilation:</p>
+<p>Now it is possible to install PHP 7 and 5 using PHPBrew. It will take some time.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>phpbrew install 5.6.28 +default +dbs +apxs2 +gd +iconv +intl +mcrypt +soap
 phpbrew install 7.0.13 +default +dbs +apxs2 +gd +iconv +intl +mcrypt +soap
 </code></pre>
 </div>
 
-<p>Check phpbrew documentation for further usage of various features provided by this tool.</p>
+<p>Check PHPBrew <a href="https://github.com/phpbrew/phpbrew">documentation</a> for further usage of various features provided by this tool.</p>
 
 <h1 id="configuring-apache-fastcgi">Configuring apache fastcgi</h1>
 
-<p>For editing files, you are free to use your preferred tool, or install my favourite <strong>vi</strong>:</p>
+<p>For editing files, you are free to use your preferred tool, or install my favourite <strong>vim</strong>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>apt install vim
 </code></pre>
 </div>
 
-<p>Create a directory for fastcgi scripts:</p>
+<p>Create a directory for FastCGI scripts:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>mkdir /var/www/cgi-bin
 </code></pre>
 </div>
 
-<p>A fastcgi script should be created for each php version.</p>
+<p>A FastCGI script should be created for each php version.</p>
 
-<p>Now a fastcgi script should be created for each php version.</p>
-
-<p>Lets save script for PHP 7.0.13 as /var/www/cgi-bin/php-7.0.13</p>
-
-<p>Here is an example content:</p>
+<p>Lets save the script for PHP 7.0.13 to <code class="highlighter-rouge">/var/www/cgi-bin/php-7.0.13</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
 <span class="nv">PHPRC</span><span class="o">=</span><span class="s2">"/root/.phpbrew/php/php-7.0.13/etc/"</span>
@@ -111,9 +111,7 @@ phpbrew install 7.0.13 +default +dbs +apxs2 +gd +iconv +intl +mcrypt +soap
 </code></pre>
 </div>
 
-<p>Script for PHP 5.6.28 should be saved as /var/www/cgi-bin/php-5.6.28</p>
-
-<p>Here is an example content:</p>
+<p>Corresponding script for PHP 5.6.28 to <code class="highlighter-rouge">/var/www/cgi-bin/php-5.6.28</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
 <span class="nv">PHPRC</span><span class="o">=</span><span class="s2">"/root/.phpbrew/php/php-5.6.28/etc/"</span>
@@ -129,7 +127,7 @@ phpbrew install 7.0.13 +default +dbs +apxs2 +gd +iconv +intl +mcrypt +soap
 </code></pre>
 </div>
 
-<p>Give apache permissions to execute created scripts:</p>
+<p>Give Apache permissions to execute created scripts:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>chmod -R +x /var/www/cgi-bin/
 chown -R www-data /var/www/cgi-bin/
@@ -140,7 +138,7 @@ chown www-data /root/.phpbrew/php/php-7.0.13/bin/php-cgi
 </code></pre>
 </div>
 
-<p>Fastcgi configuration (<strong>/etc/apache2/mods-available/fastcgi.conf</strong>) should look like this:</p>
+<p>FastCGI configuration (<code class="highlighter-rouge">/etc/apache2/mods-available/fastcgi.conf</code>) should look like this:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>&lt;IfModule mod_fastcgi.c&gt;
   AddHandler fastcgi-script .fcgi
@@ -152,10 +150,11 @@ chown www-data /root/.phpbrew/php/php-7.0.13/bin/php-cgi
 </code></pre>
 </div>
 
-<p>Although ScriptAlias looks odd here, it is required for proper apache rewrites handling.
-<strong>-idle-timeout</strong> is not required but recommended if you would like to use xdebug, for example, and do not want to get errors each time request is processing more than 30 seconds.</p>
+<p>Although ScriptAlias looks odd here, it is required for proper apache rewrites handling.</p>
 
-<p>As fastcgi will now handle php files, we have to disable apache php modules:</p>
+<p><strong>-idle-timeout</strong> is not required, but recommended if you would like to use xdebug, for example, and do not want to get errors each time request is processing more than 30 seconds.</p>
+
+<p>As FastCGI will now handle PHP files, we have to disable concurrent Apache PHP modules:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>a2dismod php5
 a2dismod php7
@@ -164,7 +163,7 @@ a2dismod php7
 
 <h1 id="configuring-virtual-hosts">Configuring virtual hosts</h1>
 
-<p>Creating websites:</p>
+<p>Creating basing websites:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>mkdir /var/www/php5
 mkdir /var/www/php7
@@ -174,7 +173,7 @@ chown -R www-data /var/www
 </code></pre>
 </div>
 
-<p>Create <strong>php5</strong> website virtual host configuration (/etc/apache2/sites-available/php5.conf):</p>
+<p>Create <strong>php5</strong> website virtual host configuration (<code class="highlighter-rouge">/etc/apache2/sites-available/php5.conf</code>):</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>&lt;VirtualHost *:*&gt;
   ServerName php5.local.com
@@ -184,7 +183,7 @@ chown -R www-data /var/www
 </code></pre>
 </div>
 
-<p>Create <strong>php7</strong> website virtual host configuration (/etc/apache2/sites-available/php7.conf):</p>
+<p>Create <strong>php7</strong> website virtual host configuration (<code class="highlighter-rouge">/etc/apache2/sites-available/php7.conf</code>):</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>&lt;VirtualHost *:*&gt;
   ServerName php7.local.com
@@ -193,7 +192,7 @@ chown -R www-data /var/www
 &lt;/VirtualHost&gt;
 </code></pre>
 </div>
-<p>Enable apache actions mod to be able to parse used “Action” keyword:</p>
+<p>Enable Apache actions mod to be able to handle “Action” keyword:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>a2enmod actions
 </code></pre>
@@ -214,7 +213,17 @@ RewriteRule . - [L]
 </code></pre>
 </div>
 
-<p>Note: remember to add local domain names to hosts file before testing.</p>
+<h1 id="testing-the-environment">Testing the environment</h1>
+
+<p>Thats it! Now let’s test the created vebsites.</p>
+
+<p>As we are using custom domains, these should be added to system hosts file (<code class="highlighter-rouge">/etc/hosts</code>):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>127.0.0.1   php5.local.com php7.local.com
+</code></pre>
+</div>
+
+<p>Open your browser and visit php5.local.com and php7.local.com domains (or use wget).</p>
 
                     ]]>
                 </content:encoded>
@@ -231,7 +240,7 @@ RewriteRule . - [L]
     
         
             <item>
-                <title>Magento 2. Add a column to Sales Order grid</title>
+                <title>Magento 2. Adding column to Sales Order grid</title>
                 <link>http://www.sivaschenko.com/magento2/2016/03/05/magento2-add-column-to-sales-order-grid/</link>
                 <content:encoded>
                     <![CDATA[
@@ -245,8 +254,8 @@ By default only several main columns are visible in grid, but there are addition
 <p>Basically, to add a column to sales order grid you have to perform 3 simple steps:</p>
 
 <ul>
-  <li>Add column to sales_order_grid database table</li>
-  <li>Add DI configuration to populate the column in sales_order_grid table with your value</li>
+  <li>Add column to <strong>sales_order_grid</strong> database table</li>
+  <li>Add DI configuration to populate the column in <strong>sales_order_grid</strong> table with your value</li>
   <li>Add UI component configuration to display the column in grid</li>
 </ul>
 
@@ -254,13 +263,11 @@ By default only several main columns are visible in grid, but there are addition
 
 <h1 id="preconditions">Preconditions</h1>
 
-<p>First of all, ensure you have your column in database table, and it is mapped to any field of sales_order table. For my example, let’s assume that there is affiliate table consisting of two columns: order_id and affiliate_information. This table is used to store some <a href="http://en.wikipedia.org/wiki/Affiliate_marketing">affiliate information</a> related to particular order. It would be nice to display this information in “Affiliate Information” column in sales order grid. Let’s do this!</p>
+<p>First of all, ensure you have your column in database table, and it is mapped to any field of <strong>sales_order</strong> table. For my example, let’s assume that there is <strong>affiliate</strong> table consisting of two columns: <strong>order_id</strong> and <strong>affiliate_information</strong>. This table is used to store some <a href="http://en.wikipedia.org/wiki/Affiliate_marketing">affiliate information</a> related to particular order. It would be nice to display this information in “Affiliate Information” column in sales order grid. Let’s do this!</p>
 
 <h1 id="adding-column-to-salesordergrid-database-table">Adding column to sales_order_grid database table</h1>
 
-<p>Columns are added to database tables using InstallSchema script. To be consistent, it this script should be updated in the same module, where affiliate table was added.</p>
-
-<p>InstallScema path:</p>
+<p>Columns are added to database tables using <strong>InstallSchema</strong> script. To be consistent, this script should be updated in the same module, where affiliate table was added.</p>
 
 <p>The following code fragment will do the trick:</p>
 
@@ -275,20 +282,21 @@ By default only several main columns are visible in grid, but there are addition
 </code></pre>
 </div>
 
-<p>Just add it to “app/code/<Namespace>/<Module>/Setup/InstallSchema.php" file and it will create a column named affiliate_information, of type text, with comment "Affiliate Information" to sales_order_grid during installation.</Module></Namespace></p>
+<p>Just add it to “app/code/&lt;your_namespace&gt;/&lt;your_module&gt;/Setup/InstallSchema.php” file and it will create a column named <strong>affiliate_information</strong>, of type text, with comment “Affiliate Information” to <strong>sales_order_grid</strong> during installation.</p>
 
-<p>Don’t worry about implications of core table modification. sales_order_grid is index table and is used for order grid rendering speed up. It is designed to store all information required for sales order grid rendering, so custom columns are required to be added to this table.</p>
+<p>Don’t worry about implications of core table modification. <strong>sales_order_grid</strong> is index table and is used for order grid rendering speed up. It is designed to store all information required for sales order grid rendering, so custom columns are required to be added to this table.</p>
 
 <p>To reflect changes in database magento reinstallation is required. Optionally, deleting module entry from setup_module table and running bin/magento setup:upgrade command will be also ok.</p>
 
-<p>After this step affiliate_information column is present in sales_order_grid table, but is remaining empty as it is not mapped to any data source.</p>
+<p>After this step, <strong>affiliate_information</strong> column is present in <strong>sales_order_grid</strong> table, but is remaining empty as it is not mapped to any data source.</p>
 
 <h1 id="di-configuration-to-populate-the-column-is-salesordergrid-table">DI configuration to populate the column is sales_order_grid table.</h1>
 
-<p>On this stage, it would be good to understand how sales_order_grid table is populated.
-When order is placed (according to default configuration), data related to this order is selected from sales_order table joining several additional tables and inserted to sales_order_grid. This operation is initiated by \Magento\Sales\Model\ResourceModel\Grid::refresh function and the default select is declared in “<Magento Sales="" module="">/etc/di.xml" file.</Magento></p>
+<p>On this stage, it would be good to understand how <strong>sales_order_grid</strong> table is populated.</p>
 
-<p>So to include our table in mentioned insert from select, we have to extend di configuration creating “app/code/<Namespace>/<Module>/etc/adminhtml/di.xml" file.</Module></Namespace></p>
+<p>When order is placed (according to default configuration), data related to this order is selected from <strong>sales_order</strong> table joining several additional tables and inserted to <strong>sales_order_grid</strong>. This operation is initiated by <code class="highlighter-rouge">\Magento\Sales\Model\ResourceModel\Grid::refresh</code> function and the default select is declared in “&lt;Magento Sales module&gt;/etc/di.xml” file.</p>
+
+<p>So to include our table in mentioned insert from select, we have to extend di configuration creating “app/code/&lt;Namespace&gt;/&lt;Module&gt;/etc/adminhtml/di.xml” file.</p>
 
 <p>The following xml snippet should be added to di configuration inside config node.</p>
 
@@ -313,16 +321,16 @@ When order is placed (according to default configuration), data related to this 
 </code></pre>
 </div>
 
-<p>This configuration is specifying that affiliate table will be joined to select from sales_order on sales_order.entity_id = affiliate.order_id and will populate sales_order_grid.affiliate_information column with corresponding value from affiliate.affiliate_information.</p>
+<p>This configuration is specifying that affiliate table will be joined to select from <strong>sales_order</strong> on <code class="highlighter-rouge">sales_order.entity_id = affiliate.order_id</code> and will populate <strong>sales_order_grid.affiliate_information</strong> column with corresponding value from <strong>affiliate.affiliate_information</strong>.</p>
 
-<p>After this step, our affiliate_information column in sales_order_grid table is populated with value from affilate table each time order is placed. Still, column will exist only in database, and will not be visible in admin panel.</p>
+<p>After this step, our affiliate_information column in <strong>sales_order_grid</strong> table is populated with value from affilate table each time order is placed. Still, column will exist only in database, and will not be visible in admin panel.</p>
 
 <h1 id="configure-ui-grid-component-to-display-the-column">Configure UI grid component to display the column</h1>
 
-<p>Finally, to reflect the column on admin panel grid, we have to extend sales_order_grid ui component by adding a ui configuration file in our module.</p>
+<p>Finally, to reflect the column on admin panel grid, we have to extend <strong>sales_order_grid</strong> ui component by adding a ui configuration file in our module.</p>
 
-<p>It is possible to extend ui configuration fo sales order grid introducing “app/code/<Namespace>/<Module>/view/adminhtml/ui_component/sales_order_grid.xml" file.
-Basically it should have the same name and path in relation to module directory as main sales order grid ui component file: "app/code/Magento/Sales/view/adminhtml/ui_component/sales_order_grid.xml"</Module></Namespace></p>
+<p>It is possible to extend ui configuration fo sales order grid introducing <code class="highlighter-rouge">app/code/\&lt;Namespace&gt;/\&lt;Module&gt;/view/adminhtml/ui_component/sales_order_grid.xml</code> file.
+Basically it should have the same name and path in relation to module directory as main sales order grid ui component file: <code class="highlighter-rouge">app/code/Magento/Sales/view/adminhtml/ui_component/sales_order_grid.xml</code></p>
 
 <p>Put the following xml snippet to the ui configuration file:</p>
 
@@ -341,25 +349,26 @@ Basically it should have the same name and path in relation to module directory 
 </code></pre>
 </div>
 
-<p>This will extend sales_order_columns and add a column based on affiliate_information filed, of type text, with translatable label “Affiliate Information”.</p>
+<p>This will extend sales_order_columns and add a column based on <strong>affiliate_information</strong> filed, of type text, with translatable label “Affiliate Information”.</p>
 
-<h1 id="bonus-how-to-ensure-salesordergrid-is-populated-after-value-is-inserted-to-source-table">Bonus: How to ensure sales_order_grid is populated after value is inserted to source table.</h1>
+<h1 id="ensuring-salesordergrid-is-populated-after-value-is-inserted-to-source-table">Ensuring sales_order_grid is populated after value is inserted to source table.</h1>
 
-<p>There are two approaches to ensure that correct value is present in source table when sales_order_grid is populated:</p>
+<p>There are two approaches to ensure that correct value is present in source table when <strong>sales_order_grid</strong> is populated:</p>
 
 <ul>
-  <li>Save value to source table before sales_order_grid refresh is triggered.</li>
-  <li>Trigger sales_order_grid refresh after saving value.</li>
+  <li>Save value to source table before <strong>sales_order_grid</strong> refresh is triggered.</li>
+  <li>Trigger <strong>sales_order_grid</strong> refresh after saving value.</li>
 </ul>
 
-<p>First approach is necessary if value should be saved to source table right on place order action. One of solutions will be to create observer on event that is dispatched when order is saved, but grid is still not refreshed. Such event is “sales_order_save_after”.</p>
+<p>First approach is necessary if value should be saved to source table right on place order action. One of solutions will be to create observer on event that is dispatched when order is saved, but grid is still not refreshed. Such event is <code class="highlighter-rouge">sales_order_save_after</code>.</p>
 
-<p>Second approach is applicable when source table is updated some time after order is placed, or asynchronously. Here you have to call \Magento\Sales\Model\ResourceModel\Grid::refresh method after value is saved to source table.</p>
+<p>Second approach is applicable when source table is updated some time after order is placed, or asynchronously. Here you have to call <code class="highlighter-rouge">\Magento\Sales\Model\ResourceModel\Grid::refresh</code> method after value is saved to source table.</p>
 
 <h1 id="final-tips">Final Tips</h1>
 
-<p>Be sure to refresh config cache after editing xml files.
-For sure provided setting are basic, and there are much more parameters available for install script, di and ui configuration to customize content and look of added column, take time to observe existing install scripts, di and ui configuration files and try adding more parameters for your implementation.</p>
+<p>Be sure to refresh config cache after editing xml files.</p>
+
+<p>Provided setting are basic, and there are much more parameters available for install script, di and ui configuration to customize content and appearance of added column, take time to observe existing install scripts, di and ui configuration files and try adding more parameters to your implementation.</p>
 
 <p>Hope this tutorial was useful for you. Please feel free to provide any feedback in comments or contact me directly.</p>
 

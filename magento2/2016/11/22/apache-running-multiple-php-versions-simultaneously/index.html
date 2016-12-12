@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for sivaschenko" href="/feed.xml" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/style.css?201612122023" type="text/css">
+    <link rel="stylesheet" href="/css/style.css?201612122105" type="text/css">
 
     <!-- Fonts -->
     
@@ -184,24 +184,28 @@
 
 <p>There are several ways to achieve the same goal and run multiple websites on different PHP versions simultaneously.</p>
 
-<p>In my opinion, the most convenient way to install several PHP versions side-by-side for development purpose is using <a href="https://github.com/phpbrew/phpbrew">phpbrew</a>.
-As for running multiple php versions on one server, my choice is Apache with fastcgi.</p>
+<p>In my opinion, the most convenient way to install several PHP versions side-by-side for development purpose is using <strong>PHPBrew</strong>.</p>
 
-<p>The approach described here in short includes the following steps:</p>
+<p>As for running multiple php versions on one server, my choice is <strong>Apache</strong> with <strong>FastCGI</strong>.</p>
+
+<p>The approach described here includes the following steps:</p>
 
 <ul>
-  <li>Install several php versions using PHPBrew</li>
-  <li>Install Apache web server with fastcgi module</li>
-  <li>Create separate fastcgi script for each php version</li>
-  <li>Specify fastcgi script for web application execution on virtual host level</li>
+  <li>Install several php versions using <strong>PHPBrew</strong></li>
+  <li>Install <strong>Apache</strong> web server with <strong>FastCGI</strong> module</li>
+  <li>Create separate <strong>FastCGI</strong> script for each php version</li>
+  <li>Map appropriate <strong>FastCGI</strong> script for web application execution on <strong>virtual host level</strong></li>
 </ul>
 
-<p>The instructions are tested on <strong>ubuntu:xenial</strong> docker image (Ubuntu 16.04).
-Tutorial is based on setting up enviroment from scratch, so some of steps can be skipped on particular environments, however there should be no problems to execute all mentioned commands even if some packages are already installed on the system.</p>
+<p>The instructions are tested on <strong>ubuntu:xenial</strong> docker image (Ubuntu 16.04).</p>
+
+<p>Tutorial is based on setting up enviroment from scratch, so some of steps can be skipped on particular environments, however there should be no problems to execute all mentioned commands even if some packages are already installed on the system.</p>
+
+<div class="markdown-warning-note"><i class="fa fa-warning"></i>The installation and configuration demonstrated under <b>root</b> user for simplification. Please perform actions under appropriate user on your system where possible.</div>
 
 <h1 id="installing-all-the-dependencies">Installing all the dependencies</h1>
 
-<p>First lets add two additional repositories to apt that are required to fetch libapache2-mod-fastcgi package:</p>
+<p>Adding <code class="highlighter-rouge">multiverse</code> and <code class="highlighter-rouge">partner</code> repositories to apt. These are required to fetch <code class="highlighter-rouge">libapache2-mod-fastcgi</code> package:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>apt update
 apt install software-properties-common lsb-release
@@ -210,21 +214,21 @@ apt update
 </code></pre>
 </div>
 
-<p>Than we have to install MySQL, Apache, Fastcgi mod with dev packages as they will be required for compiling php modules:</p>
+<p>Than, we have to install MySQL, Apache and FastCGI module together with related dev packages as they will be required for PHP modules compilation:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>apt install apache2 apache2-dev libapache2-mod-fastcgi
 apt install mysql-server mysql-client libmysqlclient-dev libmysqld-dev libpq-dev
 </code></pre>
 </div>
 
-<p>Ensuring all other php dependecies are in place:</p>
+<p>Ensuring all other PHP dependecies are in place:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>apt install php php-dev php-pear autoconf automake curl libcurl3-openssl-dev build-essential libxslt1-dev re2c 
 apt install libxml2 libxml2-dev php-cli bison libbz2-dev libreadline-dev libicu-dev libmcrypt-dev libmcrypt4
 </code></pre>
 </div>
 
-<p>Installing phpbrew:</p>
+<p>Installing PHPBrew:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
 chmod +x phpbrew
@@ -233,36 +237,32 @@ phpbrew init
 </code></pre>
 </div>
 
-<p>Now it is possible to install php 7 and 5 using phpbrew, it will take some time for compilation:</p>
+<p>Now it is possible to install PHP 7 and 5 using PHPBrew. It will take some time.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>phpbrew install 5.6.28 +default +dbs +apxs2 +gd +iconv +intl +mcrypt +soap
 phpbrew install 7.0.13 +default +dbs +apxs2 +gd +iconv +intl +mcrypt +soap
 </code></pre>
 </div>
 
-<p>Check phpbrew documentation for further usage of various features provided by this tool.</p>
+<p>Check PHPBrew <a href="https://github.com/phpbrew/phpbrew">documentation</a> for further usage of various features provided by this tool.</p>
 
 <h1 id="configuring-apache-fastcgi">Configuring apache fastcgi</h1>
 
-<p>For editing files, you are free to use your preferred tool, or install my favourite <strong>vi</strong>:</p>
+<p>For editing files, you are free to use your preferred tool, or install my favourite <strong>vim</strong>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>apt install vim
 </code></pre>
 </div>
 
-<p>Create a directory for fastcgi scripts:</p>
+<p>Create a directory for FastCGI scripts:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>mkdir /var/www/cgi-bin
 </code></pre>
 </div>
 
-<p>A fastcgi script should be created for each php version.</p>
+<p>A FastCGI script should be created for each php version.</p>
 
-<p>Now a fastcgi script should be created for each php version.</p>
-
-<p>Lets save script for PHP 7.0.13 as /var/www/cgi-bin/php-7.0.13</p>
-
-<p>Here is an example content:</p>
+<p>Lets save the script for PHP 7.0.13 to <code class="highlighter-rouge">/var/www/cgi-bin/php-7.0.13</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
 <span class="nv">PHPRC</span><span class="o">=</span><span class="s2">"/root/.phpbrew/php/php-7.0.13/etc/"</span>
@@ -278,9 +278,7 @@ phpbrew install 7.0.13 +default +dbs +apxs2 +gd +iconv +intl +mcrypt +soap
 </code></pre>
 </div>
 
-<p>Script for PHP 5.6.28 should be saved as /var/www/cgi-bin/php-5.6.28</p>
-
-<p>Here is an example content:</p>
+<p>Corresponding script for PHP 5.6.28 to <code class="highlighter-rouge">/var/www/cgi-bin/php-5.6.28</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
 <span class="nv">PHPRC</span><span class="o">=</span><span class="s2">"/root/.phpbrew/php/php-5.6.28/etc/"</span>
@@ -296,7 +294,7 @@ phpbrew install 7.0.13 +default +dbs +apxs2 +gd +iconv +intl +mcrypt +soap
 </code></pre>
 </div>
 
-<p>Give apache permissions to execute created scripts:</p>
+<p>Give Apache permissions to execute created scripts:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>chmod -R +x /var/www/cgi-bin/
 chown -R www-data /var/www/cgi-bin/
@@ -307,7 +305,7 @@ chown www-data /root/.phpbrew/php/php-7.0.13/bin/php-cgi
 </code></pre>
 </div>
 
-<p>Fastcgi configuration (<strong>/etc/apache2/mods-available/fastcgi.conf</strong>) should look like this:</p>
+<p>FastCGI configuration (<code class="highlighter-rouge">/etc/apache2/mods-available/fastcgi.conf</code>) should look like this:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>&lt;IfModule mod_fastcgi.c&gt;
   AddHandler fastcgi-script .fcgi
@@ -319,10 +317,11 @@ chown www-data /root/.phpbrew/php/php-7.0.13/bin/php-cgi
 </code></pre>
 </div>
 
-<p>Although ScriptAlias looks odd here, it is required for proper apache rewrites handling.
-<strong>-idle-timeout</strong> is not required but recommended if you would like to use xdebug, for example, and do not want to get errors each time request is processing more than 30 seconds.</p>
+<p>Although ScriptAlias looks odd here, it is required for proper apache rewrites handling.</p>
 
-<p>As fastcgi will now handle php files, we have to disable apache php modules:</p>
+<p><strong>-idle-timeout</strong> is not required, but recommended if you would like to use xdebug, for example, and do not want to get errors each time request is processing more than 30 seconds.</p>
+
+<p>As FastCGI will now handle PHP files, we have to disable concurrent Apache PHP modules:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>a2dismod php5
 a2dismod php7
@@ -331,7 +330,7 @@ a2dismod php7
 
 <h1 id="configuring-virtual-hosts">Configuring virtual hosts</h1>
 
-<p>Creating websites:</p>
+<p>Creating basing websites:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>mkdir /var/www/php5
 mkdir /var/www/php7
@@ -341,7 +340,7 @@ chown -R www-data /var/www
 </code></pre>
 </div>
 
-<p>Create <strong>php5</strong> website virtual host configuration (/etc/apache2/sites-available/php5.conf):</p>
+<p>Create <strong>php5</strong> website virtual host configuration (<code class="highlighter-rouge">/etc/apache2/sites-available/php5.conf</code>):</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>&lt;VirtualHost *:*&gt;
   ServerName php5.local.com
@@ -351,7 +350,7 @@ chown -R www-data /var/www
 </code></pre>
 </div>
 
-<p>Create <strong>php7</strong> website virtual host configuration (/etc/apache2/sites-available/php7.conf):</p>
+<p>Create <strong>php7</strong> website virtual host configuration (<code class="highlighter-rouge">/etc/apache2/sites-available/php7.conf</code>):</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>&lt;VirtualHost *:*&gt;
   ServerName php7.local.com
@@ -360,7 +359,7 @@ chown -R www-data /var/www
 &lt;/VirtualHost&gt;
 </code></pre>
 </div>
-<p>Enable apache actions mod to be able to parse used “Action” keyword:</p>
+<p>Enable Apache actions mod to be able to handle “Action” keyword:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>a2enmod actions
 </code></pre>
@@ -381,7 +380,17 @@ RewriteRule . - [L]
 </code></pre>
 </div>
 
-<p>Note: remember to add local domain names to hosts file before testing.</p>
+<h1 id="testing-the-environment">Testing the environment</h1>
+
+<p>Thats it! Now let’s test the created vebsites.</p>
+
+<p>As we are using custom domains, these should be added to system hosts file (<code class="highlighter-rouge">/etc/hosts</code>):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>127.0.0.1   php5.local.com php7.local.com
+</code></pre>
+</div>
+
+<p>Open your browser and visit php5.local.com and php7.local.com domains (or use wget).</p>
 
 </article>
 

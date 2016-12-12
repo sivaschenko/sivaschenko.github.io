@@ -680,6 +680,16 @@ body {
 .clearfix {
   *zoom: 1; }
 
+.markdown-warning-note {
+  color: #9F6000;
+  background-color: #FEEFB3;
+  margin: 10px 0px;
+  padding: 12px; }
+
+.markdown-warning-note i {
+  margin: 10px 22px;
+  vertical-align: middle; }
+
 a {
   color: #0076df;
   background-image: linear-gradient(to top, transparent 13%, rgba(0, 118, 223, 0.8) 13%, rgba(0, 118, 223, 0.8) 17%, transparent 17%);
