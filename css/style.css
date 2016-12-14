@@ -1055,8 +1055,7 @@ footer {
 .social-icons a.fa {
   cursor: pointer;
   opacity: 0.8;
-  padding: 0.2em;
-  font-size: 1.4rem; }
+  padding: 0.2em; }
 
 .social-icons a.fa:hover {
   opacity: 1; }
@@ -1098,6 +1097,7 @@ blockquote footer {
   color: #2f4f4f; }
 
 .post-footer {
+  margin-top: 2rem;
   text-align: center; }
 
 .post-footer .avatar {
@@ -1130,7 +1130,10 @@ blockquote footer {
     font-size: 1.5rem; }
 
   .project-description-block {
-    float: left; } }
+    float: left; }
+
+  .social-icons a.fa {
+    font-size: 2rem; } }
 @media screen and (min-width: 32em) {
   html {
     font-size: 16px; }
