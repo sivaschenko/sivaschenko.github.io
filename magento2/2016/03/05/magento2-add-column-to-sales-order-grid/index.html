@@ -81,7 +81,7 @@
   <h1 class="page-title">Magento 2. Adding column to Sales Order grid</h1>
   <span class="post-meta">Mar 5, 2016</span><br>
   <span class="post-meta small">
-  4 minute read
+  5 minute read
   </span>
 </div>
 <article class="post-content">
@@ -191,6 +191,53 @@ Basically it should have the same name and path in relation to module directory 
 <p>First approach is necessary if value should be saved to source table right on place order action. One of solutions will be to create observer on event that is dispatched when order is saved, but grid is still not refreshed. Such event is <code class="highlighter-rouge">sales_order_save_after</code>.</p>
 
 <p>Second approach is applicable when source table is updated some time after order is placed, or asynchronously. Here you have to call <code class="highlighter-rouge">\Magento\Sales\Model\ResourceModel\Grid::refresh</code> method after value is saved to source table.</p>
+
+<h1 id="populating-created-salesordergrid-column-for-existing-order">Populating created sales_order_grid column for existing order</h1>
+
+<p>For upgrading existing data either install (for first release of your module) or upgrade script should be created.</p>
+
+<p>Here is an example of upgrade script populating <code class="highlighter-rouge">sales_order_grid.affiliate_information</code> column from <code class="highlighter-rouge">affiliate.affiliate_information</code> for 1.0.1 version of module.</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>namespace YourNamespace\YourModule\Setup;
+
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Framework\Setup\UpgradeDataInterface;
+
+class UpgradeData implements UpgradeDataInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    {
+        $setup-&gt;startSetup();
+
+        if (version_compare($context-&gt;getVersion(), '1.0.1', '<span class="err">&lt;</span>')) {
+            $connection = $setup-&gt;getConnection();
+            $grid = $setup-&gt;getTable('sales_order_grid');
+            $affiliate = $setup-&gt;getTable('affiliate');
+
+            $connection-&gt;query(
+                $connection-&gt;updateFromSelect(
+                    $connection-&gt;select()
+                        -&gt;join(
+                            $affiliate,
+                            sprintf('%s.entity_id = %s.order_id', $grid, $affiliate),
+                            'affiliate_information'
+                        ),
+                    $grid
+                )
+            );
+        }
+
+        $setup-&gt;endSetup();
+    }
+}
+</code></pre>
+</div>
+
+<p>For this upgrade script to be executed, you have to increase module version in module.xml (from 1.0.0 to 1.0.1) and run <code class="highlighter-rouge">bin/magento setup:upgtade</code> command</p>
 
 <h1 id="final-tips">Final Tips</h1>
 

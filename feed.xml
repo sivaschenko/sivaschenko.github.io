@@ -347,6 +347,53 @@ Basically it should have the same name and path in relation to module directory 
 
 &lt;p&gt;Second approach is applicable when source table is updated some time after order is placed, or asynchronously. Here you have to call &lt;code class=&quot;highlighter-rouge&quot;&gt;\Magento\Sales\Model\ResourceModel\Grid::refresh&lt;/code&gt; method after value is saved to source table.&lt;/p&gt;
 
+&lt;h1 id=&quot;populating-created-salesordergrid-column-for-existing-order&quot;&gt;Populating created sales_order_grid column for existing order&lt;/h1&gt;
+
+&lt;p&gt;For upgrading existing data either install (for first release of your module) or upgrade script should be created.&lt;/p&gt;
+
+&lt;p&gt;Here is an example of upgrade script populating &lt;code class=&quot;highlighter-rouge&quot;&gt;sales_order_grid.affiliate_information&lt;/code&gt; column from &lt;code class=&quot;highlighter-rouge&quot;&gt;affiliate.affiliate_information&lt;/code&gt; for 1.0.1 version of module.&lt;/p&gt;
+
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;namespace YourNamespace\YourModule\Setup;
+
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Framework\Setup\UpgradeDataInterface;
+
+class UpgradeData implements UpgradeDataInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    {
+        $setup-&amp;gt;startSetup();
+
+        if (version_compare($context-&amp;gt;getVersion(), '1.0.1', '&lt;span class=&quot;err&quot;&gt;&amp;lt;&lt;/span&gt;')) {
+            $connection = $setup-&amp;gt;getConnection();
+            $grid = $setup-&amp;gt;getTable('sales_order_grid');
+            $affiliate = $setup-&amp;gt;getTable('affiliate');
+
+            $connection-&amp;gt;query(
+                $connection-&amp;gt;updateFromSelect(
+                    $connection-&amp;gt;select()
+                        -&amp;gt;join(
+                            $affiliate,
+                            sprintf('%s.entity_id = %s.order_id', $grid, $affiliate),
+                            'affiliate_information'
+                        ),
+                    $grid
+                )
+            );
+        }
+
+        $setup-&amp;gt;endSetup();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;For this upgrade script to be executed, you have to increase module version in module.xml (from 1.0.0 to 1.0.1) and run &lt;code class=&quot;highlighter-rouge&quot;&gt;bin/magento setup:upgtade&lt;/code&gt; command&lt;/p&gt;
+
 &lt;h1 id=&quot;final-tips&quot;&gt;Final Tips&lt;/h1&gt;
 
 &lt;p&gt;Be sure to refresh config cache after editing xml files.&lt;/p&gt;
