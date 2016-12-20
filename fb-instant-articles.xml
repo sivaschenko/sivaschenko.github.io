@@ -9,6 +9,154 @@
     
         
             <item>
+                <title>Magento 2. Retrieving category layered navigation filterable attributes</title>
+                <link>http://www.sivaschenko.com/magento2/2016/12/20/magento2-retrieving-category-layered-navigation-filterable-attributes/</link>
+                <content:encoded>
+                    <![CDATA[
+                    <h1 id="introduction">Introduction</h1>
+
+<p>Retrieving layered navigation attributes is a useful task that can be required during optimization and implementaion of various features.</p>
+
+<p>As usual, there is more than one way for achieving the goal.</p>
+
+<p>I will start from the most primitive and fast approach, and continue with more framework utilization recommended for future maintainability.</p>
+
+<h1 id="sql-query">SQL Query</h1>
+
+<p>Basically the raw sql query will clearly describe what I am going to achieve:</p>
+
+<p>Variant 1 (subselects):</p>
+
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">eav_attribute</span><span class="p">.</span><span class="n">attribute_id</span>
+<span class="k">FROM</span> <span class="n">eav_attribute</span>
+<span class="k">WHERE</span> <span class="n">eav_attribute</span><span class="p">.</span><span class="n">attribute_id</span> <span class="k">IN</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="n">catalog_eav_attribute</span><span class="p">.</span><span class="n">attribute_id</span>
+  <span class="k">FROM</span> <span class="n">catalog_eav_attribute</span>
+  <span class="k">WHERE</span> <span class="n">catalog_eav_attribute</span><span class="p">.</span><span class="n">is_filterable</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">)</span>
+<span class="k">AND</span> <span class="n">eav_attribute</span><span class="p">.</span><span class="n">attribute_id</span> <span class="k">IN</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="n">eav_entity_attribute</span><span class="p">.</span><span class="n">attribute_id</span>
+  <span class="k">FROM</span> <span class="n">eav_entity_attribute</span>
+    <span class="k">JOIN</span> <span class="n">catalog_product_entity</span> <span class="k">ON</span> <span class="n">eav_entity_attribute</span><span class="p">.</span><span class="n">attribute_set_id</span> <span class="o">=</span> <span class="n">catalog_product_entity</span><span class="p">.</span><span class="n">attribute_set_id</span>
+    <span class="k">JOIN</span> <span class="n">catalog_category_product</span> <span class="k">ON</span> <span class="n">catalog_product_entity</span><span class="p">.</span><span class="n">entity_id</span> <span class="o">=</span> <span class="n">catalog_category_product</span><span class="p">.</span><span class="n">product_id</span>
+  <span class="k">WHERE</span> <span class="n">catalog_category_product</span><span class="p">.</span><span class="n">category_id</span> <span class="o">=</span> <span class="mi">1234</span>
+<span class="p">);</span>
+</code></pre>
+</div>
+
+<p>Variant 2 (joins):</p>
+
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="k">SELECT</span>
+  <span class="n">eav_attribute</span><span class="p">.</span><span class="n">attribute_id</span>
+<span class="k">FROM</span> <span class="n">eav_attribute</span>
+  <span class="k">JOIN</span> <span class="n">eav_entity_attribute</span> <span class="k">ON</span> <span class="n">eav_attribute</span><span class="p">.</span><span class="n">attribute_id</span> <span class="o">=</span> <span class="n">eav_entity_attribute</span><span class="p">.</span><span class="n">attribute_id</span>
+  <span class="k">JOIN</span> <span class="n">catalog_eav_attribute</span> <span class="k">ON</span> <span class="n">eav_attribute</span><span class="p">.</span><span class="n">attribute_id</span> <span class="o">=</span> <span class="n">catalog_eav_attribute</span><span class="p">.</span><span class="n">attribute_id</span>
+                             <span class="k">AND</span> <span class="n">catalog_eav_attribute</span><span class="p">.</span><span class="n">is_filterable</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="k">JOIN</span> <span class="n">catalog_product_entity</span> <span class="k">ON</span> <span class="n">eav_entity_attribute</span><span class="p">.</span><span class="n">attribute_set_id</span> <span class="o">=</span> <span class="n">catalog_product_entity</span><span class="p">.</span><span class="n">attribute_set_id</span>
+  <span class="k">JOIN</span> <span class="n">catalog_category_product</span> <span class="k">ON</span> <span class="n">catalog_product_entity</span><span class="p">.</span><span class="n">entity_id</span> <span class="o">=</span> <span class="n">catalog_category_product</span><span class="p">.</span><span class="n">product_id</span>
+                                <span class="k">AND</span> <span class="n">catalog_category_product</span><span class="p">.</span><span class="n">category_id</span> <span class="o">=</span> <span class="mi">1234</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">eav_attribute</span><span class="p">.</span><span class="n">attribute_id</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>As you can see the attributes we need are <strong>filterable attributes from attribute sets of products included in specified category</strong>.</p>
+
+<p>These sql queries will also help to test program realization later.</p>
+
+<h1 id="using-resource">Using Resource</h1>
+
+<p>Lets first try to perform the straight query using just a <code class="highlighter-rouge">ResourceConnection</code> (this approach can be used for prototyping or quick debug).</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="nv">$categoryId</span> <span class="o">=</span> <span class="mi">1234</span><span class="p">;</span>
+
+<span class="sd">/** @var \Magento\Framework\App\ResourceConnection $resource */</span>
+<span class="nv">$resource</span> <span class="o">=</span> <span class="nx">ObjectManager</span><span class="o">::</span><span class="na">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nx">\Magento\Framework\App\ResourceConnection</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+<span class="nv">$connection</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getConnection</span><span class="p">();</span>
+
+<span class="nv">$select</span> <span class="o">=</span> <span class="nv">$connection</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">from</span><span class="p">([</span><span class="s1">'ea'</span> <span class="o">=&gt;</span> <span class="nv">$connection</span><span class="o">-&gt;</span><span class="na">getTableName</span><span class="p">(</span><span class="s1">'eav_attribute'</span><span class="p">)],</span> <span class="s1">'ea.attribute_id'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">join</span><span class="p">([</span><span class="s1">'eea'</span> <span class="o">=&gt;</span> <span class="nv">$connection</span><span class="o">-&gt;</span><span class="na">getTableName</span><span class="p">(</span><span class="s1">'eav_entity_attribute'</span><span class="p">)],</span> <span class="s1">'ea.attribute_id = eea.attribute_id'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">join</span><span class="p">([</span><span class="s1">'cea'</span> <span class="o">=&gt;</span> <span class="nv">$connection</span><span class="o">-&gt;</span><span class="na">getTableName</span><span class="p">(</span><span class="s1">'catalog_eav_attribute'</span><span class="p">)],</span> <span class="s1">'ea.attribute_id = cea.attribute_id'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">join</span><span class="p">([</span><span class="s1">'cpe'</span> <span class="o">=&gt;</span> <span class="nv">$connection</span><span class="o">-&gt;</span><span class="na">getTableName</span><span class="p">(</span><span class="s1">'catalog_product_entity'</span><span class="p">)],</span> <span class="s1">'eea.attribute_set_id = cpe.attribute_set_id'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">join</span><span class="p">([</span><span class="s1">'ccp'</span> <span class="o">=&gt;</span> <span class="nv">$connection</span><span class="o">-&gt;</span><span class="na">getTableName</span><span class="p">(</span><span class="s1">'catalog_category_product'</span><span class="p">)],</span> <span class="s1">'cpe.entity_id = ccp.product_id'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">'cea.is_filterable = ?'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">'ccp.category_id = ?'</span><span class="p">,</span> <span class="nv">$categoryId</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">group</span><span class="p">(</span><span class="s1">'ea.attribute_id'</span><span class="p">);</span>
+
+<span class="nv">$attributeIds</span> <span class="o">=</span> <span class="nv">$connection</span><span class="o">-&gt;</span><span class="na">fetchCol</span><span class="p">(</span><span class="nv">$select</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>After this code is executed, <code class="highlighter-rouge">$attributeIds</code> is an array of filtable attribute ids involved in category with specified id.</p>
+
+<p>However this implementation is not ideal, because it skips potentially extended behavior of layered navigation and small details like disabled, out of stock products, etc.</p>
+
+<h1 id="using-layer">Using Layer</h1>
+
+<p>After a bit of investigation I was not able to find framework api to provide filterable attributes for specific category.</p>
+
+<p>So, the task is a bit more complex than seems to be.</p>
+
+<p>Basically all filterable attributes in Magento 2 can be retrived from <strong>FilterableAttributeList</strong>:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="nv">$filterableAttributes</span> <span class="o">=</span> <span class="nx">ObjectManager</span><span class="o">::</span><span class="na">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nx">\Magento\Catalog\Model\Layer\Category\FilterableAttributeList</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+<span class="nv">$attributes</span> <span class="o">=</span> <span class="nv">$filterableAttributes</span><span class="o">-&gt;</span><span class="na">getList</span><span class="p">();</span>
+</code></pre>
+</div>
+
+<p>Retrieving filters involved in layered navigation is a bit more tricky.</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="nv">$filterableAttributes</span> <span class="o">=</span> <span class="nx">ObjectManager</span><span class="o">::</span><span class="na">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nx">\Magento\Catalog\Model\Layer\Category\FilterableAttributeList</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+
+<span class="nv">$appState</span> <span class="o">=</span> <span class="nx">ObjectManager</span><span class="o">::</span><span class="na">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nx">\Magento\Framework\App\State</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+<span class="nv">$layerResolver</span> <span class="o">=</span> <span class="nx">ObjectManager</span><span class="o">::</span><span class="na">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nx">\Magento\Catalog\Model\Layer\Resolver</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+<span class="nv">$filterList</span> <span class="o">=</span> <span class="nx">ObjectManager</span><span class="o">::</span><span class="na">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span>
+    <span class="nx">\Magento\Catalog\Model\Layer\FilterList</span><span class="o">::</span><span class="na">class</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="s1">'filterableAttributes'</span> <span class="o">=&gt;</span> <span class="nv">$filterableAttributes</span>
+    <span class="p">]</span>
+<span class="p">);</span>
+
+ <span class="nv">$category</span> <span class="o">=</span> <span class="mi">1234</span><span class="p">;</span>
+ 
+ <span class="nv">$appState</span><span class="o">-&gt;</span><span class="na">setAreaCode</span><span class="p">(</span><span class="s1">'frontend'</span><span class="p">);</span>
+ <span class="nv">$layer</span> <span class="o">=</span> <span class="nv">$layerResolver</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>
+ <span class="nv">$layer</span><span class="o">-&gt;</span><span class="na">setCurrentCategory</span><span class="p">(</span><span class="nv">$category</span><span class="p">);</span>
+ <span class="nv">$filters</span> <span class="o">=</span> <span class="nv">$filterList</span><span class="o">-&gt;</span><span class="na">getFilters</span><span class="p">(</span><span class="nv">$layer</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>Please be aware, that I am using object manager static calls just for short and explicit example. In clean implementation it is highly recommended to use di instead.</p>
+
+<p>You might also want to use di configuration for defining <code class="highlighter-rouge">filterableAttributes</code> argument.</p>
+
+<p>However this is not the final result. To be sure that filters are actual, it is required to check number of items for each filters. (that check is accually performed during core layered navigation <a href="//github.com/magento/magento2/blob/develop/app/code/Magento/LayeredNavigation/view/frontend/templates/layer/view.phtml#L38">rendering</a>)</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="k">foreach</span> <span class="p">(</span><span class="nv">$filters</span> <span class="k">as</span> <span class="nv">$filter</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$filter</span><span class="o">-&gt;</span><span class="na">getItemsCount</span><span class="p">())</span> <span class="p">{</span>
+        <span class="nv">$filters</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$filter</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>In above code block you can also perform additional checks and i.e. throw away Price and Category filter instances, if you need just Attribute type filters.</p>
+
+
+                    ]]>
+                </content:encoded>
+                <guid isPermaLink="false">/magento2/2016/12/20/magento2-retrieving-category-layered-navigation-filterable-attributes/</guid>
+                <description>
+                    
+                    Retrieving layered navigation attributes is a useful task that can be required during optimization and implementaion of various features ...
+                    
+                </description>
+                <pubDate>Tue, 20 Dec 2016 08:20:29 +0000</pubDate>
+                <author>Sergii Ivashchenko</author>
+            </item>
+        
+    
+        
+            <item>
                 <title>Apache running multiple PHP versions simultaneously</title>
                 <link>http://www.sivaschenko.com/php/2016/11/22/apache-running-multiple-php-versions-simultaneously/</link>
                 <content:encoded>
