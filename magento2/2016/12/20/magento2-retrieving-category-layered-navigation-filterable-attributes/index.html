@@ -107,7 +107,7 @@
   <span class="post-meta">Dec 20, 2016</span><br>
   
   <span class="post-meta small">
-  2 minute read
+  3 minute read
   </span>
 </div>
 <article class="post-content">
@@ -167,7 +167,6 @@
 
 <div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="nv">$categoryId</span> <span class="o">=</span> <span class="mi">1234</span><span class="p">;</span>
 
-<span class="sd">/** @var \Magento\Framework\App\ResourceConnection $resource */</span>
 <span class="nv">$resource</span> <span class="o">=</span> <span class="nx">ObjectManager</span><span class="o">::</span><span class="na">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nx">\Magento\Framework\App\ResourceConnection</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
 <span class="nv">$connection</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getConnection</span><span class="p">();</span>
 
@@ -181,6 +180,16 @@
     <span class="o">-&gt;</span><span class="na">group</span><span class="p">(</span><span class="s1">'ea.attribute_id'</span><span class="p">);</span>
 
 <span class="nv">$attributeIds</span> <span class="o">=</span> <span class="nv">$connection</span><span class="o">-&gt;</span><span class="na">fetchCol</span><span class="p">(</span><span class="nv">$select</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>Then attribute ids can be used to load collection of attributes.</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="nv">$collectionFactory</span> <span class="o">=</span> <span class="nx">ObjectManager</span><span class="o">::</span><span class="na">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="nx">\Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+<span class="nv">$collection</span> <span class="o">=</span> <span class="nv">$collectionFactory</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">();</span>
+<span class="nv">$collection</span><span class="o">-&gt;</span><span class="na">setItemObjectClass</span><span class="p">(</span><span class="s1">'Magento\Catalog\Model\ResourceModel\Eav\Attribute'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">addStoreLabel</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">storeManager</span><span class="o">-&gt;</span><span class="na">getStore</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getId</span><span class="p">());</span>
+<span class="nv">$collection</span><span class="o">-&gt;</span><span class="na">addFieldToFilter</span><span class="p">(</span><span class="s1">'attribute_id'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'in'</span> <span class="o">=&gt;</span> <span class="nv">$attributeIds</span><span class="p">]);</span>
 </code></pre>
 </div>
 
@@ -239,6 +248,16 @@
 
 <p>In above code block you can also perform additional checks and i.e. throw away Price and Category filter instances, if you need just Attribute type filters.</p>
 
+<p>Then filter name and values can be retrieved:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$filter</span><span class="o">-&gt;</span><span class="na">getName</span><span class="p">();</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$filter</span><span class="o">-&gt;</span><span class="na">getItems</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$item</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Solutions mentioned here are the best I could find. However, they do not look perfect. So, if you know a better solution or at least can advise where to look, please leave a comment. I will much appreciate it!</p>
 
 </article>
 <div class="share-page">
