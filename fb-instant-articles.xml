@@ -7,9 +7,7 @@ layout: null
   <channel>
     <title>{{ site.title | xml_escape }}</title>
     <link>{{ site.url }}</link>
-    <description>
-      {% if site.description %}{{ site.description | xml_escape }}{% endif %}
-    </description>
+    <description>{% if site.description %}{{ site.description | xml_escape }}{% endif %}</description>
     {% for post in site.posts %}
         {% unless post.link %}
             <item>

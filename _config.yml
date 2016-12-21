@@ -87,18 +87,14 @@ text:
     updated:        'Updated'
     minute_read:    'minute read'
     related_posts:  'See also'
-  index:
-    coming_soon: 'Coming soon...'
   og_locale: 'en_US'
 
 # Build settings
 markdown:     kramdown
 redcarpet:
   extensions: ['smart', 'tables', 'with_toc_data']
-permalink:    pretty
+permalink:    /:title/
 paginate:     4
-sass:
-  compressed: true
 gems:
   - jekyll-paginate
   - jekyll-sitemap
