@@ -31,7 +31,7 @@ Columns are added to database tables using **InstallSchema** script. To be consi
 
 The following code fragment will do the trick:
 
-```php
+```php?start_inline=1
 $setup->getConnection()->addColumn(
     $setup->getTable('sales_order_grid'),
     'affiliate_information',
@@ -129,7 +129,7 @@ For upgrading existing data either install (for first release of your module) or
 
 Here is an example of upgrade script populating ```sales_order_grid.affiliate_information``` column from ```affiliate.affiliate_information``` for 1.0.1 version of module.
 
-```php
+```php?start_inline=1
 namespace YourNamespace\YourModule\Setup;
 
 use Magento\Framework\Setup\ModuleContextInterface;
