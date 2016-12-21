@@ -23,7 +23,7 @@ The approach described here includes the following steps:
  
 The instructions are tested on **ubuntu:xenial** docker image (Ubuntu 16.04).
 
-Tutorial is based on setting up enviroment from scratch, so some of steps can be skipped on particular environments, however there should be no problems to execute all mentioned commands even if some packages are already installed on the system.
+Tutorial is based on setting up environment from scratch, so some of steps can be skipped on particular environments, however there should be no problems to execute all mentioned commands even if some packages are already installed on the system.
 
 <div class="markdown-warning-note"><i class="fa fa-warning"></i>The installation and configuration demonstrated under <b>root</b> user for simplification. Please perform actions under appropriate user on your system where possible.</div>
 
@@ -45,7 +45,7 @@ apt install apache2 apache2-dev libapache2-mod-fastcgi
 apt install mysql-server mysql-client libmysqlclient-dev libmysqld-dev libpq-dev
 ```
 
-Ensuring all other PHP dependecies are in place:
+Ensuring all other PHP dependencies are in place:
 
 ```
 apt install php php-dev php-pear autoconf automake curl libcurl3-openssl-dev build-essential libxslt1-dev re2c 
@@ -207,7 +207,7 @@ RewriteRule . - [L]
 
 # Testing the environment
 
-Thats it! Now let's test the created vebsites.
+That's it! Now let's test the created websites.
 
 As we are using custom domains, these should be added to system hosts file (```/etc/hosts```):
 

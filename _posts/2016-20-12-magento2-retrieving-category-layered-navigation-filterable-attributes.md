@@ -2,13 +2,13 @@
 layout:     post
 title:      Magento 2. Retrieving category layered navigation filterable attributes
 date:       2016-12-20 8:20:29
-summary:    Retrieving layered navigation attributes is a useful task that can be required during optimization and implementaion of various features ...
+summary:    Retrieving layered navigation attributes is a useful task that can be required during optimization and implementation of various features ...
 categories: magento2
 ---
 
 # Introduction
 
-Retrieving layered navigation attributes is a useful task that can be required during optimization and implementaion of various features.
+Retrieving layered navigation attributes is a useful task that can be required during optimization and implementation of various features.
 
 As usual, there is more than one way for achieving the goal.
 
@@ -88,7 +88,7 @@ $collection->setItemObjectClass('Magento\Catalog\Model\ResourceModel\Eav\Attribu
 $collection->addFieldToFilter('attribute_id', ['in' => $attributeIds]);
 ```
 
-After this code is executed, ```$attributeIds``` is an array of filtable attribute ids involved in category with specified id.
+After this code is executed, ```$attributeIds``` is an array of filterable attribute ids involved in category with specified id.
 
 However this implementation is not ideal, because it skips potentially extended behavior of layered navigation and small details like disabled, out of stock products, etc.
 
@@ -98,7 +98,7 @@ After a bit of investigation I was not able to find framework api to provide fil
 
 So, the task is a bit more complex than seems to be.
 
-Basically all filterable attributes in Magento 2 can be retrived from **FilterableAttributeList**:
+Basically all filterable attributes in Magento 2 can be retrieved from **FilterableAttributeList**:
 
 ```php?start_inline=1
 $filterableAttributes = ObjectManager::getInstance()->get(\Magento\Catalog\Model\Layer\Category\FilterableAttributeList::class);
@@ -131,7 +131,7 @@ Please be aware, that I am using object manager static calls just for short and 
 
 You might also want to use di configuration for defining ```filterableAttributes``` argument.
 
-However this is not the final result. To be sure that filters are actual, it is required to check number of items for each filters. (that check is accually performed during core layered navigation [rendering](//github.com/magento/magento2/blob/develop/app/code/Magento/LayeredNavigation/view/frontend/templates/layer/view.phtml#L38))
+However this is not the final result. To be sure that filters are actual, it is required to check number of items for each filters. (that check is actually performed during core layered navigation [rendering](//github.com/magento/magento2/blob/develop/app/code/Magento/LayeredNavigation/view/frontend/templates/layer/view.phtml#L38))
 
 ```php?start_inline=1
 foreach ($filters as $filter) {

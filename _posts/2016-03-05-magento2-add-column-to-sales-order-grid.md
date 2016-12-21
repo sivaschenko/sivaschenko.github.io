@@ -83,7 +83,7 @@ The following xml snippet should be added to di configuration inside config node
 
 This configuration is specifying that affiliate table will be joined to select from **sales_order** on ```sales_order.entity_id = affiliate.order_id``` and will populate **sales_order_grid.affiliate_information** column with corresponding value from **affiliate.affiliate_information**.
 
-After this step, our affiliate_information column in **sales_order_grid** table is populated with value from affilate table each time order is placed. Still, column will exist only in database, and will not be visible in admin panel.
+After this step, our affiliate_information column in **sales_order_grid** table is populated with value from affiliate table each time order is placed. Still, column will exist only in database, and will not be visible in admin panel.
 
 # Configure UI grid component to display the column
 
