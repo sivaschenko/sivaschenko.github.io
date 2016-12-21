@@ -1,0 +1,1 @@
+<a href="{{ site.url }}">Posts</a>{% for page in site.pages %}{% if page.tags contains "projects" %}<a href="{{ page.url }}">Projects</a>{% endif %}{% if page.tags contains "about" %}<a href="{{ page.url }}">About</a>{% endif %}{% endfor %}
