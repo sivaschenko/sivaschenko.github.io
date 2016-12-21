@@ -1,0 +1,99 @@
+@charset "UTF-8";
+
+html, body {
+  height: auto;
+  min-height: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+em img {
+  max-width: 100%;
+  margin-left: 0;
+}
+
+body {
+          box-sizing: border-box;
+     -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.share-links a {
+  margin: 5px;
+}
+
+.github-graph {
+  margin-bottom: 30px;
+}
+.github-graph .js-calendar-graph-svg {
+  max-width: 100%;
+}
+
+.project-container {
+  padding: 10px;
+  margin-bottom: 10px;
+  clear: both;
+}
+
+.project-thumb {
+  float: left;
+  width: 300px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.project-link {
+  margin-top: 10px;
+}
+
+.project-name {
+  margin-top: 0px;
+}
+
+/**
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.clearfix:before,
+.clearfix:after {
+  content: " "; /* 1 */
+  display: table; /* 2 */
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.clearfix {
+  *zoom: 1;
+}
+
+.markdown-warning-note {
+  color: #9F6000;
+  background-color: #FEEFB3;
+  margin: 10px 0px;
+  padding:12px;
+}
+.markdown-warning-note i {
+  margin:10px 22px;
+  vertical-align:middle;
+}
