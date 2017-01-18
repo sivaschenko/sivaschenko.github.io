@@ -22,7 +22,7 @@ The invalidation is performed by sending ```PURGE``` request to Varnish server *
 
 The PURGE request should be handled on Varnish side by the first part of ```vcl_recv``` function in vcl file:
 
-```
+```VCL
 if (req.method == "PURGE") {
         if (client.ip !~ purge) {
             return (synth(405, "Method not allowed"));
@@ -79,24 +79,24 @@ To enable Varnish cache invalidation, three conditions should be satisfied:
 
 To add Varnish servers to deployment configuration it is convenient to use Magento command:
 
-```
+```Shell
 bin/magento setup:config:set --http-cache-hosts=127.0.0.1:80,192.0.1.100:81
 ```
 
 This will update ```app/etc/env.php``` file with the following snippet:
 
 ```php?start_inline=1
-    'http_cache_hosts' =>
-        array(
-            0 =>
-                array(
-                    'host' => '127.0.0.1',
-                    'port' => '80',
-                ),
-            1 =>
-                array(
-                    'host' => '192.0.1.100',
-                    'port' => '81',
-                ),
-        ),
+'http_cache_hosts' =>
+    array(
+        0 =>
+            array(
+                'host' => '127.0.0.1',
+                'port' => '80',
+            ),
+        1 =>
+            array(
+                'host' => '192.0.1.100',
+                'port' => '81',
+            ),
+    ),
 ```
