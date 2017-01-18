@@ -79,11 +79,13 @@ To enable Varnish cache invalidation, three conditions should be satisfied:
 
 To add Varnish servers to deployment configuration it is convenient to use Magento command:
 
-```bin/magento setup:config:set --http-cache-hosts=127.0.0.1:80,192.0.1.100:81```
+```
+bin/magento setup:config:set --http-cache-hosts=127.0.0.1:80,192.0.1.100:81
+```
 
 This will update ```app/etc/env.php``` file with the following snippet:
 
-```
+```php?start_inline=1
     'http_cache_hosts' =>
         array(
             0 =>
