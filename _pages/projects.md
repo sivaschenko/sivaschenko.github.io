@@ -2,6 +2,7 @@
 layout: page
 title: My Projects
 permalink: /projects/
+meta_description: Sergii Ivashchenko open source projects. Free utilities, libraries and Magento 2 extensions.
 tags: projects
 ---
 

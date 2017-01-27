@@ -6,7 +6,7 @@ summary:    Retrieving layered navigation attributes is a useful task that can b
 categories: magento2
 ---
 
-# Introduction
+## Introduction
 
 Retrieving layered navigation attributes is a useful task that can be required during optimization and implementation of various features.
 
@@ -14,7 +14,7 @@ As usual, there is more than one way for achieving the goal.
 
 I will start from the most primitive and fast approach, and continue with more framework utilization recommended for future maintainability.
 
-# SQL Query
+## SQL Query
 
 Basically the raw sql query will clearly describe what I am going to achieve:
 
@@ -56,7 +56,7 @@ As you can see the attributes we need are **filterable attributes from attribute
 
 These sql queries will also help to test program realization later.
 
-# Using Resource
+## Using Resource
 
 Lets first try to perform the straight query using just a ```ResourceConnection``` (this approach can be used for prototyping or quick debug).
 
@@ -92,7 +92,7 @@ After this code is executed, ```$attributeIds``` is an array of filterable attri
 
 However this implementation is not ideal, because it skips potentially extended behavior of layered navigation and small details like disabled, out of stock products, etc.
 
-# Using Layer
+## Using Layer
 
 After a bit of investigation I was not able to find framework api to provide filterable attributes for specific category.
 

@@ -6,19 +6,19 @@ summary:    Magento 2 CE has built-in Varnish cache invalidation functionality s
 categories: magento2,varnish
 ---
 
-# Introduction
+## Introduction
 
 Magento 2 CE has built-in Varnish cache invalidation functionality supporting several cache servers and invalidation by tags. This functionality can be easily overlooked because it is not explicit enough, there is even no UI related to it.
 
 Varnish cache invalidation works the same way as built-in cache invalidation. However, cache servers credential should be configured using deployment configuration (instead of admin panel system configuration) and the functionality is implemented in a separate module.
 
-# Module Functionality Overview
+## Module Functionality Overview
 
 Cache invalidation functionality is introduced by **Magento_CacheInvalidate** module. This is a very tiny module that consists just of a couple of models and couple of observers, however, it is using much of **Magento_PageCache** module code.
 
 The invalidation is performed by sending ```PURGE``` request to Varnish server **host:port**. The purge request includes ```X-Magento-Tags-Pattern``` header that enables cache invalidation by tags.
 
-# Varnish side functionality
+## Varnish side functionality
 
 The PURGE request should be handled on Varnish side by the first part of ```vcl_recv``` function in vcl file:
 
@@ -40,7 +40,7 @@ The template for it is actually from **Magento_PageCache** module, [see in githu
 
 I would like to note that cache is not actually purged, it is banned while still remaining in memory, that fact has a positive impact on the time required to flush the cache, however, can cause some inconvenience in long run.
 
-# Magento side functionality
+## Magento side functionality
 
 On Magento side, the logic is represented by two observers **FlushAllCacheObserver** and **InvalidateVarnishObserver**.
 
@@ -69,7 +69,7 @@ That observer is retrieving an object from the event instance. Only if the objec
 
 Currently, not all entities in Magneto 2 are implementing that interface, so automatic full page cache invalidation (both for reverse-proxies and built-in cache) will not work for all entities.
 
-# Enabling Varnish cache invalidation
+## Enabling Varnish cache invalidation
 
 To enable Varnish cache invalidation, three conditions should be satisfied:
 

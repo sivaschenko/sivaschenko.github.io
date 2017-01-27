@@ -6,7 +6,7 @@ summary:    Lets setup an Apache webserver to run PHP 5.6 and 7.0 websites simul
 categories: php
 ---
 
-# Overview
+## Overview
 
 There are several ways to achieve the same goal and run multiple websites on different PHP versions simultaneously.
 
@@ -27,7 +27,7 @@ Tutorial is based on setting up environment from scratch, so some of steps can b
 
 <div class="markdown-warning-note"><i class="fa fa-warning"></i>The installation and configuration demonstrated under <b>root</b> user for simplification. Please perform actions under appropriate user on your system where possible.</div>
 
-# Installing all the dependencies
+## Installing all the dependencies
 
 Adding ```multiverse``` and ```partner``` repositories to apt. These are required to fetch ```libapache2-mod-fastcgi``` package:
 
@@ -70,7 +70,7 @@ phpbrew install 7.0.13 +default +dbs +apxs2 +gd +iconv +intl +mcrypt +soap
 
 Check PHPBrew [documentation](https://github.com/phpbrew/phpbrew) for further usage of various features provided by this tool.
 
-# Configuring apache fastcgi
+## Configuring apache fastcgi
 
 For editing files, you are free to use your preferred tool, or install my favourite **vim**:
 
@@ -153,7 +153,7 @@ a2dismod php5
 a2dismod php7
 ```
 
-# Configuring virtual hosts
+## Configuring virtual hosts
 
 Creating basing websites:
 
@@ -205,7 +205,7 @@ RewriteCond %{REQUEST_URI} ^/cgi-bin/php-(.*)
 RewriteRule . - [L]
 ```
 
-# Testing the environment
+## Testing the environment
 
 That's it! Now let's test the created websites.
 

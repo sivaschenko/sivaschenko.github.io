@@ -1,6 +1,7 @@
 ---
 layout: page
 title: About Me
+meta_description: Sergii Ivashchenko or Sergey Ivaschenko, PHP developer, Magento enthusiast.
 permalink: /about/
 tags: about
 ---

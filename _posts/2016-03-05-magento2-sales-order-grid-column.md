@@ -21,11 +21,11 @@ Basically, to add a column to sales order grid you have to perform 3 simple step
  
 Let's go through this implementation step by step.
 
-# Preconditions
+## Preconditions
 
 First of all, ensure you have your column in database table, and it is mapped to any field of **sales_order** table. For my example, let's assume that there is **affiliate** table consisting of two columns: **order_id** and **affiliate_information**. This table is used to store some [affiliate information](http://en.wikipedia.org/wiki/Affiliate_marketing) related to particular order. It would be nice to display this information in "Affiliate Information" column in sales order grid. Let's do this!
 
-# Adding column to sales_order_grid database table
+## Adding column to sales_order_grid database table
 
 Columns are added to database tables using **InstallSchema** script. To be consistent, this script should be updated in the same module, where affiliate table was added.
 
@@ -85,7 +85,7 @@ This configuration is specifying that affiliate table will be joined to select f
 
 After this step, our affiliate_information column in **sales_order_grid** table is populated with value from affiliate table each time order is placed. Still, column will exist only in database, and will not be visible in admin panel.
 
-# Configure UI grid component to display the column
+## Configure UI grid component to display the column
 
 Finally, to reflect the column on admin panel grid, we have to extend **sales_order_grid** ui component by adding a ui configuration file in our module.
 
@@ -112,7 +112,7 @@ Put the following xml snippet to the ui configuration file:
 
 This will extend sales_order_columns and add a column based on **affiliate_information** filed, of type text, with translatable label "Affiliate Information".
 
-# Ensuring sales_order_grid is populated after value is inserted to source table.
+## Ensuring sales_order_grid is populated after value is inserted to source table.
 
 There are two approaches to ensure that correct value is present in source table when **sales_order_grid** is populated:
 
@@ -123,7 +123,7 @@ First approach is necessary if value should be saved to source table right on pl
 
 Second approach is applicable when source table is updated some time after order is placed, or asynchronously. Here you have to call ```\Magento\Sales\Model\ResourceModel\Grid::refresh``` method after value is saved to source table.
 
-# Populating created sales_order_grid column for existing order
+## Populating created sales_order_grid column for existing order
 
 For upgrading existing data either install (for first release of your module) or upgrade script should be created.
 
@@ -170,8 +170,7 @@ class UpgradeData implements UpgradeDataInterface
 
 For this upgrade script to be executed, you have to increase module version in module.xml (from 1.0.0 to 1.0.1) and run ```bin/magento setup:upgtade``` command
 
-
-# Final Tips
+## Final Tips
 
 Be sure to refresh config cache after editing xml files.
 
