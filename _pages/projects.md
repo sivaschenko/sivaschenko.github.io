@@ -8,6 +8,20 @@ tags: projects
 
 <div class="project-container clearfix">
     <div class="project-thumb-block">
+        <a href="//www.packtpub.com/web-development/mastering-magento-2-video">
+            <img src="{{ site.url }}/images/mastering-magento-2.jpg" alt="Mastering Magento 2 Video Course" class="project-thumb"/>
+        </a>
+    </div>
+    <div class="project-description-block">
+        <h3 class="project-name">Mastering Magento 2 Video Course</h3>
+        <div class="project-description">
+            Video course concentrating best practices and approaches of Magento 2 extensions implementation.
+        </div>
+        <div class="project-link">More on <a href="//www.packtpub.com/web-development/mastering-magento-2-video">PacktPub</a></div>
+    </div>
+</div>
+<div class="project-container clearfix">
+    <div class="project-thumb-block">
         <a href="//github.com/sivaschenko/utility-cron">
             <img src="{{ site.url }}/images/project-utility-cron.png" alt="PHP Cron Library" class="project-thumb"/>
         </a>
