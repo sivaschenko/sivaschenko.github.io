@@ -15,7 +15,7 @@ tags: projects
     <div class="project-description-block">
         <h3 class="project-name">Mastering Magento 2 Video Course</h3>
         <div class="project-description">
-            Video course concentrating best practices and approaches of Magento 2 extensions implementation.
+            Video course concentrating best practices and approaches for Magento 2 extensions implementation.
         </div>
         <div class="project-link">More on <a href="//www.packtpub.com/web-development/mastering-magento-2-video">PacktPub</a></div>
     </div>
