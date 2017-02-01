@@ -14,7 +14,7 @@ That was a result of Magento community willing to have more frequent and more te
 
 Having support of the idea from developers present at the meetup, we together with [Paras Sood](https://twitter.com/ParasSood29) decided to create a poll and see if Magento Developers in Ireland are interested in such meetups. And it appeared they are!
 
-![Magento Developers Ireland Poll Results]({{ site.url }}/images/dev-magento-meetup-ireland-poll-results.jpg)
+![Magento Developers Ireland Poll Results]({{ site.url }}/images/dev-magento-meetup-ireland-poll-results.png)
 
 To encourage developer participation and cover the most actual topics Stephen Kenealy proposed to use 'unconference' format for the meetup.
 
