@@ -2,7 +2,7 @@
 layout:     post
 title:      Magento 2. Retrieving category layered navigation filterable attributes
 date:       2016-12-20 8:20:29
-summary:    Retrieving layered navigation attributes is a useful task that can be required during optimization and implementation of various features ...
+summary:    Retrieving layered navigation attributes is a useful task that can be required during optimization and implementation of various features. As usual, there is more than one way for achieving the goal. I will start from the most simple and fast approach, and continue with more framework utilization recommended for future maintainability.
 categories: magento2
 ---
 
@@ -12,7 +12,7 @@ Retrieving layered navigation attributes is a useful task that can be required d
 
 As usual, there is more than one way for achieving the goal.
 
-I will start from the most primitive and fast approach, and continue with more framework utilization recommended for future maintainability.
+I will start from the most simple and fast approach, and continue with more framework utilization recommended for future maintainability.
 
 ## SQL Query
 

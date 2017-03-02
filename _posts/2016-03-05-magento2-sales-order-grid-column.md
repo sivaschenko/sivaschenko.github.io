@@ -2,7 +2,7 @@
 layout:     post
 title:      Magento 2. Adding column to Sales Order grid
 date:       2016-03-05 11:21:29
-summary:    First of all, ensure you have your column in database table, and it is mapped to any field of sales_order table...
+summary:    First of all, ensure you have your column in database table, and it is mapped to any field of sales_order table. Don't worry about implications of core table modification. sales_order_grid is index table and is used for order grid rendering speed up. It is designed to store all information required for sales order grid rendering, so custom columns are required to be added to this table.
 categories: magento2
 ---
 

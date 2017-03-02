@@ -2,7 +2,7 @@
 layout:     post
 title:      Magento 2 Varnish cache invalidation
 date:       2017-01-09 08:30:06
-summary:    Magento 2 CE has built-in Varnish cache invalidation functionality supporting several cache servers and invalidation by tags ...
+summary:    Magento 2 CE has built-in Varnish cache invalidation functionality supporting several cache servers and invalidation by tags. This functionality can be easily overlooked because it is not explicit enough, there is even no UI related to it.
 categories: magento2,varnish
 ---
 

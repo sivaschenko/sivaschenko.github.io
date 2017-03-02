@@ -2,7 +2,7 @@
 layout:     post
 title:      First Magento Developers Meetup in Ireland
 date:       2017-01-25 08:30:06
-summary:    First Magento Developers Meetup in Ireland. The Unconference. Magento 2 checkout presentation by Max Pronko and lots of round table discussions ...
+summary:    The idea of Dublin Magento Developers Meetup came up at the Magento Meetup Ireland 16. That was a result of Magento community willing to have more frequent and more technical meetups, the brilliant technical presentation by Gordon Knoppe following by a quart of Guinness and active communication at Ashton's. :)
 categories: magento,magento2,meetup
 ---
 

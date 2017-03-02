@@ -2,7 +2,7 @@
 layout:     post
 title:      Apache running multiple PHP versions simultaneously
 date:       2016-11-22 11:21:29
-summary:    Lets setup an Apache webserver to run PHP 5.6 and 7.0 websites simultaneously ...
+summary:    There are several ways to achieve the same goal and run multiple websites on different PHP versions simultaneously. In my opinion, the most convenient way to install several PHP versions side-by-side for development purpose is using PHPBrew. As for running multiple php versions on one server, my choice is Apache with FastCGI.
 categories: php
 ---
 

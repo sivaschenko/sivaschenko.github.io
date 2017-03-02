@@ -50,7 +50,7 @@ twitter_username: sergeivaschenko
 skype_username:
 steam_nickname:
 google_plus_id:
-linkedin_username:
+linkedin_username: sivashchenko
 angellist_username:
 medium_id:
 bitcoin_url:
@@ -58,7 +58,7 @@ paypal_url:
 flattr_button:
 
 # Post sharing icons
-show_sharing_icons: true
+show_sharing_icons: false
 # Change to 'true' to enable individual icons
 share_facebook: false
 share_twitter: true
