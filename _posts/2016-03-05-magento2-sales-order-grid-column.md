@@ -50,7 +50,7 @@ To reflect changes in database magento reinstallation is required. Optionally, d
 
 After this step, **affiliate_information** column is present in **sales_order_grid** table, but is remaining empty as it is not mapped to any data source.
 
-# DI configuration to populate the column is sales_order_grid table.
+## DI configuration to populate the column is sales_order_grid table.
 
 On this stage, it would be good to understand how **sales_order_grid** table is populated.
 

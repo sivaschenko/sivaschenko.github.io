@@ -23,7 +23,7 @@ Additionally, I love sharing any valuable information I know through [presentati
 
 Any interesting news, findings and thoughts I share on my [twitter](//twitter.com/sergeivaschenko) feed.
 
-# Github
+## Github
 
 <div id="github-graph" class="github-graph">
 Loading github contributions...
