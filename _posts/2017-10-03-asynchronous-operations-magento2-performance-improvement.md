@@ -9,45 +9,49 @@ twitterimage: /images/thumbnails/async-all-the-things.jpg
 
 ## Introduction
 
-There are various practices for performance optimization of Magento 2 website on code and infrastructure level. While infrastructure tuning can result in regular additional costs, it still can only soften the impact of application architecture and algorithms. It is code that stands behind application performance first. That's why it is important to always keep in mind performance implications while customizations and especially extensions development. However, code optimization may sometimes be a compromise between functionality and speed. And sometimes it's just not possible to avoid or optimize execution of a resource consuming operation. However, such operations can still be executed asynchronously avoiding any impact on the page response time.
+There are various practices for performance optimization of Magento 2 website on both code and infrastructure level. While infrastructure tuning can result in regular additional costs, it still can only soften the impact of application architecture and algorithms. It is code that stands behind application performance first. That's why it is important to always keep in mind performance implications while customizations and especially extensions development. 
 
-While ideally the asynchronous operations I will be writing about should be performed using special external worker applications, there is always an opportunity to implement these, without any additional dependencies, using available Magento Cron jobs.
+However, code optimization may sometimes be a compromise between functionality and speed. And sometimes it's just not possible to avoid or optimize execution of a resource consuming operation. However, such operations can still be executed asynchronously avoiding bad impact on the page response time.
+
+Ideally the asynchronous operations, mentioned in this post, should be performed using external job queue applications, there is always an opportunity to implement these, without any additional dependencies, using only Magento Cron jobs.
 
 ## Asynchronous operations in Magento 2 out of the box
 
-Generally speaking a lot of operation in Magento 2 are performed by Cron asynchronously. But in this article, I will focus on the operations that are usually part of request processing, and have been or can be extracted as asynchronous operation for the purpose of performance improvement.
+In fact a lot of operation in Magento 2 are performed asynchronously as Cron jobs. But in this article, I will focus on the operations that are usually part of request processing, and have been or can be extracted as asynchronous operation for the purpose of performance improvement.
 
-Lets take a look at the most critical operation for E-commerce: place of an order. Place of an order is probably the most resource consuming request a customer can trigger.
+Lets take a look at the most critical operation for E-commerce: **place of an order**. This is probably the most resource consuming request a customer can perform.
 
 Application has to authorize payment, create order document, send an order confirmation email, update admin panel grids and much more without even considering a variety of available integrations.
 
-Magento 2 introduces two operations that can be configured as asynchronous, providing a good example for the community.
+Magento 2 introduces two operations that can be configured as asynchronous, providing a good example for developers.
 
-1. Order confirmation email is not an operation that should instantly happen and can be processed several minutes later, removing extra load from place order request processing.
+### Order confirmation emails
+
+Order confirmation email is not an operation that should instantly happen and can be processed several minutes later, removing extra load from place order request processing.
 
 This operation can be switched to asynchronous from Admin Panel "Stores" -> "Configuration" -> "Sales" -> "Sales Emails" -> "General Settings".
 
 ![Magento 2 Asychronous Order Confirmation Emails Configuration Switch]({{ site.url }}/images/order-confirmation-emails-asynchronous-configuration-switch.png)
 
-2. A similar switch is provided for reindexing ```sales_order_grid``` table, that is also a resource consuming one.
+### Sales order grid reindex
+
+A similar switch is provided for reindexing ```sales_order_grid``` table, that is also a resource consuming one.
 
 It can be accessed from "Stores" -> "Configuration" -> "Advanced" -> "Developer" -> "General Settings".
 
 ![Magento 2 Order Grid Asychronous Indexing Configuration Switch]({{ site.url }}/images/order-grid-asynchronous-indexing-configuration-switch.png)
 
-While I strongly recommend you to ensure those two switches are "Enabled" on your production Magento instance, lets go further and see how to follow this Magento practice and extract asynchronous operations from your extension.
+While I strongly recommend you to ensure those two switches are "Enabled" on your production Magento instance, lets go further and see how to follow this Magento practice and implement basic asynchronous operation.
 
 ## Extracting asynchronous operation
 
-As an example of operation, I would like to use additional action that also should be triggered during placing of an order.
-
 Let's say we'd like to implement an integration that reflects/forwards placed order to an external ERP.
 
-For the elementary asynchronous operation implementation only 3 components are essential:
+For the basic implementation only 3 components are essential:
 
- - DB status table holding order id and a flag if order was successfully delivered to 3rd party application
- - Processor class performing the operation and triggered by Cron
- - Cron configuration
+ - **DB status table** holding order id and a flag if order was successfully delivered to 3rd party application
+ - **Processor class** performing the operation and triggered by Cron
+ - **Cron configuration**
  
 ### Creating database table
 
@@ -156,17 +160,17 @@ In this case, the job is configured to execute each 5 minutes.
 
 The code provided here is shortened and not ideal. For sure it would be better to handle DB queries inside corresponding resource model, probably add a foreign key to the table (however what can happen with placed order in Magento?), and so on.
 
-Additionally, you can consider involving a configuration and returning from ```ExternalIntegrationNotify::execute``` without performing anything if configuration is set to synchronous while having additional observer/plugin that will be a synchronous alternative. But, be sure to call ```ExternalIntegrationNotify::execute``` on the moment when the configuration is switched from async to sync execution, not to forget pending orders.
+Additionally, you can consider involving a configuration and returning from ```ExternalIntegrationNotify::execute``` without performing anything if configuration is set to synchronous while having additional observer/plugin that will be a synchronous alternative. But, be sure to process pending orders on the moment when the configuration is switched from async to sync execution.
 
-Cron configuration can also be made more flexible by replacing ```schedule``` with ```config_path``` node, so that frequency of executions can also be set from admin panel.
+Cron configuration can also be made more flexible by replacing ```schedule``` with ```config_path``` node, so that frequency of executions can be changed from admin panel.
 
-As a bonus, consider dedicated status for problematic orders (i.e. if some order fails to be processed by integration), and displaying this status in sales order grid (that can be done using instructions from [another my article]())
+As a bonus, consider dedicated status for failed operations, and displaying this status in sales order grid (that can be done using instructions from [another my post]({{site.url}}/magento2-sales-order-grid-column/))
 
 If you have more ideas, any feedback or improvement suggestions for this material - feel free to share it in comments.
 
 ## Conclusion
 
-Examples in this article are all around place order action, however, the practice described can be applied in many more places.
+Examples in this article are all around place order action, however, this practice can be applied in many more places.
 
 If you know a good candidate to move to asynchronous execution in Magneto 2, it would be good to bring it up to the community and Magento Team. Lets discuss how we can make Magento 2 faster together.
 
