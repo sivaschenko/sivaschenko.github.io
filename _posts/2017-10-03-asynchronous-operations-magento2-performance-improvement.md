@@ -2,14 +2,14 @@
 layout:     post
 title:      Asynchronous operations for Magento 2 performance improvement
 date:       2017-03-10 08:30:06
-summary:    While infrastructure tuning can result in regular additional costs, it still can only soften the impact of application architecture and algorithms. It is code that stands behind application performance first. That's why it is important to always keep in mind performance implications while customizations and especially extensions implementation.
+summary:    While infrastructure tuning can result in regular additional costs, it still can only soften the impact of application architecture and algorithms. It is code that stands behind application performance first. That's why it is important to always keep in mind performance implications while customizations and especially extensions development.
 categories: magento2,performance
-twitterimage: thumbnails/async-all-the-things.jpg
+twitterimage: /thumbnails/async-all-the-things.jpg
 ---
 
 ## Introduction
 
-There are various practices for performance optimization of Magento 2 website on code and infrastructure level. While infrastructure tuning can result in regular additional costs, it still can only soften the impact of application architecture and algorithms. It is code that stands behind application performance first. That's why it is important to always keep in mind performance implications while customizations and especially extensions implementation. However, code optimization may sometimes be a compromise between functionality and speed. And sometimes it's just not possible to avoid or optimize execution of a resource consuming operation. However, such operations can still be executed asynchronously avoiding any impact on the page response time.
+There are various practices for performance optimization of Magento 2 website on code and infrastructure level. While infrastructure tuning can result in regular additional costs, it still can only soften the impact of application architecture and algorithms. It is code that stands behind application performance first. That's why it is important to always keep in mind performance implications while customizations and especially extensions development. However, code optimization may sometimes be a compromise between functionality and speed. And sometimes it's just not possible to avoid or optimize execution of a resource consuming operation. However, such operations can still be executed asynchronously avoiding any impact on the page response time.
 
 While ideally the asynchronous operations I will be writing about should be performed using special external worker applications, there is always an opportunity to implement these, without any additional dependencies, using available Magento Cron jobs.
 
