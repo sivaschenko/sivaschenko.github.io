@@ -124,16 +124,11 @@ class ExternalIntegrationNotify
         $collection->getSelect()
             ->joinLeft(
                 ['eio' => $connection->getTableName('external_integration_order')],
-                'main_table.entity_id = eio.order_id',
-                ['status' => 'eio.status']
+                'main_table.entity_id = eio.order_id'
             )
-            ->where('eio.status is null')
-            ->orWhere('eio.status != 1');
+            ->where('eio.status != 1');
 
-        $orderStatuses = [];
-        foreach ($collection as $order) {
-            $orderStatuses[$order->getId()] = $this->notifier->performOperationForOrder($order);
-        }
+        $this->notifier->performOperationForOrders($collection);
         //Only the update of status in external_integration_order table is remaining
     }
 }
