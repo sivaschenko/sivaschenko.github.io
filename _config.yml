@@ -7,6 +7,8 @@ baseurl:     ""
 url:         "http://www.sivaschenko.com"
 date_format: "%b %-d, %Y"
 
+twitterimage: thumbnails/site.png
+
 show_donation_block: false
 
 # Google services
