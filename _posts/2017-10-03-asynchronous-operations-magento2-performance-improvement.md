@@ -4,7 +4,7 @@ title:      Asynchronous operations for Magento 2 performance improvement
 date:       2017-03-10 08:30:06
 summary:    While infrastructure tuning can result in regular additional costs, it still can only soften the impact of application architecture and algorithms. It is code that stands behind application performance first. That's why it is important to always keep in mind performance implications while customizations and especially extensions development.
 categories: magento2,performance
-twitterimage: /thumbnails/async-all-the-things.jpg
+twitterimage: /images/thumbnails/async-all-the-things.jpg
 ---
 
 ## Introduction
