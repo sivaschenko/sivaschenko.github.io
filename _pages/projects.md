@@ -29,9 +29,9 @@ tags: projects
     <div class="project-description-block">
         <h3 class="project-name">The Irish Store</h3>
         <div class="project-description">
-            Migration of highly customized project acknowledged as "Best Magento 1 to Magento 2 migration" on Imagine Excellence Awards.
+            Migration of highly customized project acknowledged as "Best Magento 1 to Magento 2 migration" on Imagine Excellence Awards 2017.
         </div>
-        <div class="project-link">Go to <a href="https://www.theirishstore.com/">website</a></div>
+        <div class="project-link">More on <a href="https://magento.com/customers/irish-store">magento.com</a></div>
     </div>
 </div>
 {% if site.show_donation_block %}
