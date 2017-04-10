@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      5 block types from caching point of view in Magento 2
-date:       2017-03-10 21:30:06
+date:       2017-04-10 21:30:06
 summary:    Here is my classification of blocks in the context of caching, or five approaches to caching, and my thoughts on when and how to use them. This covers both full page and block cache.
 categories: magento2,performance
 twitterimage: /images/thumbnails/magento2-full-page-and-block-cache-types.jpg
