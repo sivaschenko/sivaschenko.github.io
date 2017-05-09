@@ -8,6 +8,20 @@ tags: projects
 
 <div class="project-container clearfix">
     <div class="project-thumb-block">
+        <a href="//www.packtpub.com/application-development/magento-2-testing-and-optimization-video">
+            <img src="{{ site.url }}/images/magento2-testing-and-optimization-video.jpg" alt="Magento 2 Testing and Optimization Video Course" class="project-thumb"/>
+        </a>
+    </div>
+    <div class="project-description-block">
+        <h3 class="project-name">Magento 2 Testing and Optimization Video CourseM</h3>
+        <div class="project-description">
+            Video course going through Magento 2 automated testing capabilities, providing optimization tips and migration overview.
+        </div>
+        <div class="project-link">More on <a href="//www.packtpub.com/application-development/magento-2-testing-and-optimization-video">PacktPub</a></div>
+    </div>
+</div>
+<div class="project-container clearfix">
+    <div class="project-thumb-block">
         <a href="//www.packtpub.com/web-development/mastering-magento-2-video">
             <img src="{{ site.url }}/images/mastering-magento-2.jpg" alt="Mastering Magento 2 Video Course" class="project-thumb"/>
         </a>
