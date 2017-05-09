@@ -13,7 +13,7 @@ tags: projects
         </a>
     </div>
     <div class="project-description-block">
-        <h3 class="project-name">Magento 2 Testing and Optimization Video CourseM</h3>
+        <h3 class="project-name">Magento 2 Testing and Optimization Video Course</h3>
         <div class="project-description">
             Video course going through Magento 2 automated testing capabilities, providing optimization tips and migration overview.
         </div>
