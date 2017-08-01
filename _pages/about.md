@@ -15,7 +15,7 @@ Last several years I work on Magento 2 customization and extensions development 
 
 I am a curious and easily inspired person. My curiosity makes me dive deeply into new frameworks, discovering how functionality is implemented. Also, it leads me to all closest meetups, that are at least somehow related to my stack of skills.
 
-For my projects, I prefer using open-source software, and in return, I am trying to contribute to open-source as much as I can. My [GitHub](//stackoverflow.com/users/1518080/sergey-ivashchenko) and [StackOverflow](//github.com/sivaschenko) accounts will show the results.
+For my projects, I prefer using open-source software, and in return, I am trying to contribute to open-source as much as I can. My [GitHub](//github.com/sivaschenko) and [StackOverflow](//stackoverflow.com/users/1518080/sergey-ivashchenko) accounts will show the results.
 
 I like to spend my free time skiing, wind-, kite-, just- surfing, hiking and playing the guitar.
 
