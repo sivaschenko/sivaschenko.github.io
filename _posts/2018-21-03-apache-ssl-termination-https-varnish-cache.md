@@ -7,7 +7,7 @@ categories: apache,ssl,https,varnish,termination
 twitterimage: /images/apache-ssl-termination.png
 ---
 
-I have seen several posts on how to configure SSL offloading with nginx, but haven't found complete information for Apache. It so happened that I prefer apache over nginx and that made me to create this article.
+I have seen several posts on how to configure SSL offloading using Nginx, but I was unable to find complete instructions for Apache. It also so happened, that I prefer Apache web server over Nginx. That fact made me to create this short post.
 
 In this post I'd like to describe the SSL termination approach in general and provide the specific configuration for Apache2 web server.
 
