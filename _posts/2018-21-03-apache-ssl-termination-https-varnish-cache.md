@@ -4,7 +4,7 @@ title:      Apache SSL Termination (HTTPS Varnish cache)
 date:       2018-03-21 17:30:06
 summary:    The HTTPS web site that is cached with Varnish can be achieved using Apache SSL termination. The setup will require two virtual hosts, several extra apache2 plugins, Varnish and web application. 
 categories: apache,ssl,https,varnish,termination
-twitterimage: /images/apache-ssl-termination.jpg
+twitterimage: /images/apache-ssl-termination.png
 ---
 
 I have seen several posts on how to configure SSL offloading with nginx, but haven't found complete information for Apache. It so happened that I prefer apache over nginx and that made me to create this article.
