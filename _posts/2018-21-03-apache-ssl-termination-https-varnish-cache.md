@@ -78,10 +78,12 @@ The "X-Forwarded-Proto" header is not required for the setup to work, however it
 As you might already notice from the virtual host configuration file that there are several mods that have to be enabled.
 
 ```
-sudo a2enmod proxy
 sudo a2enmod ssl
 sudo a2enmod rewrite
 sudo a2enmod headers
+sudo a2enmod proxy
+sudo a2enmod proxy_balancer
+sudo a2enmod proxy_http
 ```
 
 Finally, don't forget to enable virtual hosts and restart the web server.
