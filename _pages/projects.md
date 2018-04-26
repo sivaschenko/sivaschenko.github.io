@@ -38,7 +38,7 @@ tags: projects
         </div>
         <div class="project-link">Watch on <a href="//www.packtpub.com/application-development/magento-2-testing-and-optimization-video" class="link-icon">
             <img src="{{ site.url }}/images/packt.svg" title="Magento 2 Testing and Optimization by Sergii Ivashchenko on Packt Publishsing"/>
-        </a> or <a href="//www.udemy.com/mastering-magento-2" class="link-icon">
+        </a> or <a href="//www.udemy.com/magento-2-testing-and-optimization" class="link-icon">
             <img src="{{ site.url }}/images/udemy.svg" title="Magento 2 Testing and Optimization by Sergii Ivashchenko on Udemy"/>
         </a>
         </div>
