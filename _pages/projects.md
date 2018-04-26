@@ -19,7 +19,7 @@ tags: projects
         </div>
         <div class="project-link">Watch on <a href="//www.packtpub.com/application-development/mastering-magento-2-video" class="link-icon">
             <img src="{{ site.url }}/images/packt.svg" title="Mastering Magento 2 by Sergii Ivashchenko on Packt Publishsing"/>
-            </a> or <a href="//www.udemy.com/mastering-magento-2-video" class="link-icon">
+            </a> or <a href="//www.udemy.com/mastering-magento-2" class="link-icon">
                 <img src="{{ site.url }}/images/udemy.svg" title="Mastering Magento 2 by Sergii Ivashchenko on Udemy"/>
             </a>
         </div>
