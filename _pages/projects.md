@@ -1,51 +1,46 @@
 ---
 layout: page
-title: My Projects
+title: Video Courses
 permalink: /projects/
-meta_description: Sergii Ivashchenko open source projects. Free utilities, libraries and Magento 2 extensions.
+meta_description: Video Courses. Become a Magento Developer!
 tags: projects
 ---
 
 <div class="project-container clearfix">
     <div class="project-thumb-block">
-        <a href="//www.packtpub.com/application-development/magento-2-testing-and-optimization-video">
-            <img src="{{ site.url }}/images/magento2-testing-and-optimization-video.jpg" alt="Magento 2 Testing and Optimization Video Course" class="project-thumb"/>
-        </a>
-    </div>
-    <div class="project-description-block">
-        <h3 class="project-name">Magento 2 Testing and Optimization Video Course</h3>
-        <div class="project-description">
-            Video course going through Magento 2 automated testing capabilities, providing optimization tips and migration overview.
-        </div>
-        <div class="project-link">More on <a href="//www.packtpub.com/application-development/magento-2-testing-and-optimization-video">PacktPub</a></div>
-    </div>
-</div>
-<div class="project-container clearfix">
-    <div class="project-thumb-block">
         <a href="//www.packtpub.com/web-development/mastering-magento-2-video">
-            <img src="{{ site.url }}/images/mastering-magento-2.jpg" alt="Mastering Magento 2 Video Course" class="project-thumb"/>
+            <img src="{{ site.url }}/images/mastering-magento-2.jpg" alt="Mastering Magento 2" class="project-thumb"/>
         </a>
     </div>
     <div class="project-description-block">
-        <h3 class="project-name">Mastering Magento 2 Video Course</h3>
+        <h3 class="project-name">Mastering Magento 2</h3>
         <div class="project-description">
             Video course concentrating best practices and approaches for Magento 2 extensions implementation.
         </div>
-        <div class="project-link">More on <a href="//www.packtpub.com/web-development/mastering-magento-2-video">PacktPub</a></div>
+        <div class="project-link">Watch on <a href="//www.packtpub.com/application-development/mastering-magento-2-video" class="link-icon">
+            <img src="{{ site.url }}/images/packt.svg" title="Mastering Magento 2 by Sergii Ivashchenko on Packt Publishsing"/>
+        </a> or <a href="//www.udemy.com/mastering-magento-2-video" class="link-icon">
+            <img src="{{ site.url }}/images/udemy.svg" title="Mastering Magento 2 by Sergii Ivashchenko on Udemy"/>
+        </a>
     </div>
 </div>
 <div class="project-container clearfix">
     <div class="project-thumb-block">
-        <a href="https://www.theirishstore.com/">
-            <img src="{{ site.url }}/images/theirishstore.png" alt="The Irish Store" class="project-thumb"/>
+        <a href="//www.packtpub.com/application-development/magento-2-testing-and-optimization-video">
+            <img src="{{ site.url }}/images/magento2-testing-and-optimization-video.jpg" alt="Magento 2 Testing and Optimization" class="project-thumb"/>
         </a>
     </div>
     <div class="project-description-block">
-        <h3 class="project-name">The Irish Store</h3>
+        <h3 class="project-name">Magento 2 Testing and Optimization</h3>
         <div class="project-description">
-            Migration of highly customized project acknowledged as "Best Magento 1 to Magento 2 migration" on Imagine Excellence Awards 2017.
+            Video course going through Magento 2 automated testing capabilities, providing optimization tips and migration overview.
         </div>
-        <div class="project-link">More on <a href="https://magento.com/customers/irish-store">magento.com</a></div>
+        <div class="project-link">Watch on <a href="//www.packtpub.com/application-development/magento-2-testing-and-optimization-video" class="link-icon">
+            <img src="{{ site.url }}/images/packt.svg" title="Magento 2 Testing and Optimization by Sergii Ivashchenko on Packt Publishsing"/>
+        </a> or <a href="//www.udemy.com/mastering-magento-2" class="link-icon">
+            <img src="{{ site.url }}/images/udemy.svg" title="Magento 2 Testing and Optimization by Sergii Ivashchenko on Udemy"/>
+        </a>
+        </div>
     </div>
 </div>
 {% if site.show_donation_block %}

@@ -44,3 +44,16 @@ button,
     text-shadow: none;
     background-image: none;
 }
+
+.link-icon {
+  img {
+    height: 1rem;
+    margin: 0 1rem;
+  }
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+    background-image: none;
+  }
+  text-decoration: none;
+  background-image: none;
+}
