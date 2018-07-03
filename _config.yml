@@ -15,8 +15,8 @@ show_donation_block: false
 google_verification:
 # Use either direct GA implementation or set up GTM account
 # - using both will skew your data (leave blank to not use at all)
-google_analytics: UA-33180732-4
-google_tag_manager:
+google_analytics:
+google_tag_manager: GTM-MQPQDM3
 # Bing services
 bing_verification:
 
