@@ -19,7 +19,7 @@ Visit my [twitter](//twitter.com/sergeivaschenko) and [instagram](//instagram.co
 
 <div id="github-graph" class="github-graph">
 Loading github contributions...
-</di>
+</div>
 <script type="text/javascript" src="//cdn.rawgit.com/IonicaBizau/github-calendar/gh-pages/dist/github-calendar.min.js"></script>
 <script>
 new GitHubCalendar("#github-graph", "sivaschenko");
