@@ -16,6 +16,7 @@ layout: default
 <article class="post-content">
   {{ content }}
 </article>
+div class=”entry-meta”><a class=”entry-date published”>{{ page.date | date: site.date_format }}</a></div>
 {% if site.show_sharing_icons %}{% include share_buttons.html %}{% endif %}
 {% if site.show_post_footers %}{% include post_footer.html %}{% endif %}
 {% if site.disqus_shortname %}
