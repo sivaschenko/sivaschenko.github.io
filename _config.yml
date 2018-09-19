@@ -5,7 +5,7 @@ author:      Sergii Ivashchenko
 description: "Web Development Articles. Technical Blog by Sergii Ivashchenko."
 baseurl:     ""
 url:         "http://www.sivaschenko.com"
-date_format: "%b %-d, %Y"
+date_format: "%B %-d, %Y"
 
 twitterimage: /images/thumbnails/site.png
 
