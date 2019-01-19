@@ -1,15 +1,9 @@
-# blogsource
-Personal Blog Source
+# Installation
 
-# Fist installation
+Personal web page based on jekyll static website generator
 
-gem install jekyll bundler
+    gem install jekyll bundler
 
-# Manual
+    bundle install
 
-bundle install
-bundle exec jekyll serve
-
-jekyll build
-
-jekyll server
+    bundle exec jekyll serve
