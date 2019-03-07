@@ -1,17 +1,17 @@
 ---
 layout: page
 title: About Me
-meta_description: Sergii Ivashchenko or Sergey Ivaschenko, PHP developer, Magento enthusiast.
+meta_description: Sergii Ivashchenko, Sergey Ivaschenko, Sr. Software Engineer, Magento Community Engineering.
 permalink: /about/
 tags: about
 ---
-<img src="//gravatar.com/avatar/24b43157e5a79a15db64f3c1b2b1b988?s=180" alt="Sergii Ivaschenko" class="about-ava"/>
+<img src="//gravatar.com/avatar/24b43157e5a79a15db64f3c1b2b1b988?s=180" alt="Sergii Ivashchenko" class="about-ava"/>
 
-I am a PHP developer based in Dublin. I have started my career in software development back in 2009.
+Hi there! My name is Sergii Ivashchenko. I am a software engineer from Ukraine based in Ireland, a member of Magento Community Engineering team. 
 
-More than 4 years I was a part of Magento team, participating in Magento 1, Magento 2 and Magento Testing Framework development. 
+I have a versatile experience that includes participating in Magento 2 development from the early beginnings, performing award-winning Magento 1 to Magento 2 migrations, developing over 80 extensions and integrations, and publishing video courses for Magento 2 developers.
 
-Last several years I work on Magento 2 customization and extensions development as a full stack web developer.
+Currently, working on the Open Source & Partners Contribution Program, I help developers to do quality contributions to Magento codebase and deliver them to the mainline.
 
 Visit my [twitter](//twitter.com/sergeivaschenko) and [instagram](//instagram.com/sergeivaschenko) accounts for most recent news!
 
